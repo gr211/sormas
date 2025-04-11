@@ -2,6 +2,7 @@ package lu.formas.security;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
+import lombok.val;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +16,7 @@ import java.util.Collections;
 @Component
 public class SecurityService {
 
-    private static final String LOGOUT_SUCCESS_URL = "/";
+    private static final String LOGOUT_SUCCESS_URL = "/login";
 
     public UserDetails getAuthenticatedUser() {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -26,7 +27,7 @@ public class SecurityService {
         }
 
         if (principal instanceof Jwt) {
-            String username = ((Jwt) principal).getSubject();
+            val username = ((Jwt) principal).getSubject();
             return new User(username, "", Collections.emptyList());
         }
 

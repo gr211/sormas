@@ -20,7 +20,6 @@ public class PatientDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         val patient = patientRepository.findByEmail(username);
 
-
         if (!patient.isPresent()) {
             throw new UsernameNotFoundException("Patient not found");
         }

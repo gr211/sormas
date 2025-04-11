@@ -2,13 +2,12 @@ package lu.formas.views.security;
 
 
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
-import lu.formas.forms.security.PatientRegistrationForm;
+import lu.formas.views.security.forms.PatientRegistrationForm;
 import lu.formas.services.PatientService;
 
 @Route("register")
