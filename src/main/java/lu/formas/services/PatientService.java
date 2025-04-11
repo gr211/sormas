@@ -1,6 +1,8 @@
 package lu.formas.services;
 
+import lombok.val;
 import lu.formas.repository.PatientRepository;
+import lu.formas.repository.model.Login;
 import lu.formas.repository.model.Patient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,19 @@ public class PatientService {
 
     public void save(Patient patient) {
         // Encode the password before saving
-        String encodedPassword = passwordEncoder.encode(patient.getPassword());
+        val encodedPassword = passwordEncoder.encode(patient.getPassword());
         patient.setPassword(encodedPassword);
         repository.save(patient);
+    }
+
+    public Boolean login(Login login) {
+        val maybePatient = repository.findByEmail(login.getEmail());
+
+        if (maybePatient.isPresent()) {
+            val patient = maybePatient.get();
+            return passwordEncoder.matches(login.getPassword(), patient.getPassword());
+        }
+        return false;
     }
 
     public boolean exists(Patient patient) {

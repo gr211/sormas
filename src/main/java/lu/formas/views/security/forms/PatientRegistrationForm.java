@@ -1,4 +1,4 @@
-package lu.formas.forms.security;
+package lu.formas.views.security.forms;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.HasValueAndElement;
@@ -16,7 +16,6 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.repository.model.Patient;
 import lu.formas.services.PatientService;
-import lu.formas.views.security.LoginView;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -104,6 +103,6 @@ public class PatientRegistrationForm extends FormLayout {
     private void close(ClickEvent<Button> event) {
         binder.setBean(null);
         close.getUI().ifPresent(ui ->
-                ui.navigate(LoginView.LOGIN_ROUTE));
+                ui.navigate("login"));
     }
 }
