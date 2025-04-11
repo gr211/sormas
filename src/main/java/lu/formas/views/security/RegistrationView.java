@@ -1,0 +1,49 @@
+package lu.formas.views.security;
+
+
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+import lombok.val;
+import lu.formas.forms.security.PatientRegistrationForm;
+import lu.formas.services.PatientService;
+
+@Route("register")
+@PageTitle("Register")
+@AnonymousAllowed
+public class RegistrationView extends VerticalLayout {
+
+    private final PatientRegistrationForm form;
+
+    public RegistrationView(PatientService patientService) {
+        this.form = new PatientRegistrationForm(patientService);
+
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setHorizontalComponentAlignment(Alignment.CENTER, form);
+
+
+        addClassName("list-view");
+        setSizeFull();
+
+        configureForm();
+
+        add(new H1("Register"), getContent());
+    }
+
+    private VerticalLayout getContent() {
+        val content = new VerticalLayout(form);
+        content.addClassNames("register-view");
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        return content;
+    }
+
+    private void configureForm() {
+        form.setVisible(true);
+    }
+}
