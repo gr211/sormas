@@ -1,6 +1,5 @@
 package lu.formas.services;
 
-import com.vaadin.flow.spring.security.AuthenticationContext;
 import lombok.val;
 import lu.formas.repository.PatientRepository;
 import lu.formas.repository.model.Login;
@@ -13,7 +12,7 @@ public class PatientService {
     private final PatientRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public PatientService(PatientRepository repository, PasswordEncoder passwordEncoder, AuthenticationContext authenticationContext) {
+    public PatientService(PatientRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }

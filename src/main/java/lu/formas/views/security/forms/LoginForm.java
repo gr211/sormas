@@ -92,17 +92,20 @@ public class LoginForm extends FormLayout {
 
         if (binder.isValid()) {
             val authentication = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
-            val authenticate = authenticationManager.authenticate(authentication);
+            try {
+                val authenticate = authenticationManager.authenticate(authentication);
 
-            if (Objects.isNull(authenticate)) {
-                errorMessage.setVisible(true);
-                return;
+                if (Objects.isNull(authenticate)) {
+                    errorMessage.setVisible(true);
+                    return;
+                }
+
+                SecurityContextHolder.getContext().setAuthentication(authenticate);
+
+                getUI().ifPresent(ui -> ui.navigate("dashboard"));
+            } catch (Exception e) {
+                setError(true);
             }
-
-            SecurityContextHolder.getContext().setAuthentication(authenticate);
-
-            getUI().ifPresent(ui -> ui.navigate("dashboard"));
-
         }
     }
 }

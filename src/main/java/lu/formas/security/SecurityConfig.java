@@ -51,7 +51,7 @@ public class SecurityConfig extends VaadinWebSecurity {
 
         super.configure(http);
         setLoginView(http, LoginView.class);
-        setStatelessAuthentication(http, new SecretKeySpec(Base64.getDecoder().decode(authSecret), JwsAlgorithms.HS256), "lu.formas.exercise");
+        setStatelessAuthentication(http, new SecretKeySpec(Base64.getDecoder().decode(authSecret), JwsAlgorithms.HS256), "lu.sormas.exercise");
     }
 
     @Bean

@@ -21,7 +21,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     public static String LOGIN_ROUTE = "login";
 
-    private final LoginForm login;
+    public final LoginForm login;
 
     private final PatientService patientService;
     private final AuthenticationManager authenticationManager;
@@ -69,7 +69,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 .containsKey("error")) {
 
             // Show error message
-//            loginForm.setError(true);
+            login.setError(true);
         }
     }
 }
