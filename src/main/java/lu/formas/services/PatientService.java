@@ -19,7 +19,7 @@ public class PatientService {
 
     public void save(Patient patient) {
         // Encode the password before saving
-        String encodedPassword = passwordEncoder.encode(patient.getPassword());
+        val encodedPassword = passwordEncoder.encode(patient.getPassword());
         patient.setPassword(encodedPassword);
         repository.save(patient);
     }
