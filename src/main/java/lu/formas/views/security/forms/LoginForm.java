@@ -45,8 +45,10 @@ public class LoginForm extends FormLayout {
 
         add(errorMessage, email, password, buttons);
 
+        email.setValue("a@a.com");
         email.setPrefixComponent(new Icon(VaadinIcon.USER));
 
+        password.setValue("123456789");
         password.setPrefixComponent(new Icon(VaadinIcon.LOCK));
 
         setRequiredIndicatorVisible(email, password);
@@ -56,8 +58,6 @@ public class LoginForm extends FormLayout {
         login.addClickListener(this::login);
 
         configureErrorMessage();
-
-        setMaxWidth("500px");
     }
 
     private void configureErrorMessage() {
