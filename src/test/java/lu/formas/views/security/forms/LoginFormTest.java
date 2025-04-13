@@ -33,24 +33,45 @@ public class LoginFormTest {
     AuthenticationManager authenticationManager;
 
     @Test
-    public void invalid_Login_Should_Display_Error_Message() {
+    public void invalid_Login_Should_Display_Field_Error_Messages_Only() {
         val form = new LoginForm(service, authenticationManager);
 
-        assertEquals("", form.getErrorMessage().isVisible(), false);
+        assertEquals("Main error message should not be displayed", false, form.getErrorMessage().isVisible());
+        assertEquals("Email should not display error message", null, form.getEmail().getErrorMessage());
+        assertEquals("Password should not display error message", null, form.getPassword().getErrorMessage());
+
         form.getLogin().click();
-        assertEquals("", form.getErrorMessage().isVisible(), true);
+
+        assertEquals("Main error message should not be displayed", false, form.getErrorMessage().isVisible());
+        assertEquals("Email should display error message", "Email address is required", form.getEmail().getErrorMessage());
+        assertEquals("Password should display error message", "Password is required", form.getPassword().getErrorMessage());
     }
 
     @Test
-    public void invalid_Login_Should_Display_Error_MessagesXXX() {
+    public void invalid_Login_Should_Not_Display_Error_Messages_When_Auth_Is_Ok() {
         val form = new LoginForm(service, authenticationManager);
+        form.getPassword().setValue("password");
+        form.getEmail().setValue("email@email.com");
 
         val authenticated = UsernamePasswordAuthenticationToken.authenticated("", "", Collections.emptyList());
 
         when(authenticationManager.authenticate(Mockito.any(Authentication.class))).thenReturn(authenticated);
 
-        assertEquals("", form.getErrorMessage().isVisible(), false);
+        assertEquals("Error message should not be visible", form.getErrorMessage().isVisible(), false);
         form.getLogin().click();
-        assertEquals("", form.getErrorMessage().isVisible(), false);
+        assertEquals("Error message should be visible", form.getErrorMessage().isVisible(), false);
+    }
+
+    @Test
+    public void invalid_Login_Should_Not_Display_Error_Messages_When_Auth_Failed() {
+        val form = new LoginForm(service, authenticationManager);
+        form.getPassword().setValue("password");
+        form.getEmail().setValue("email@email.com");
+
+        when(authenticationManager.authenticate(Mockito.any(Authentication.class))).thenReturn(null);
+
+        assertEquals("Error message should not be visible", form.getErrorMessage().isVisible(), false);
+        form.getLogin().click();
+        assertEquals("Error message should be visible", form.getErrorMessage().isVisible(), true);
     }
 }

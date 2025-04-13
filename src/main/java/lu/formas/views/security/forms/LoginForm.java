@@ -14,7 +14,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.repository.model.Login;
 import lu.formas.services.PatientService;
@@ -46,17 +45,15 @@ public class LoginForm extends FormLayout {
 
         add(errorMessage, email, password, buttons);
 
-        email.setValue("a@a.com");
         email.setPrefixComponent(new Icon(VaadinIcon.USER));
 
-        password.setValue("123456789");
         password.setPrefixComponent(new Icon(VaadinIcon.LOCK));
 
         setRequiredIndicatorVisible(email, password);
 
         binder.bindInstanceFields(this);
 
-        login.addClickListener(this::save);
+        login.addClickListener(this::login);
 
         configureErrorMessage();
 
@@ -84,8 +81,7 @@ public class LoginForm extends FormLayout {
         errorMessage.setVisible(error);
     }
 
-    @SneakyThrows
-    public void save(ClickEvent<Button> event) {
+    public void login(ClickEvent<Button> event) {
         errorMessage.setVisible(false);
         val login = new Login();
         binder.writeBeanIfValid(login);

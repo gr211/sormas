@@ -57,7 +57,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     private void submitForm() {
-        login.save(null);
+        login.login(null);
     }
 
     @Override
