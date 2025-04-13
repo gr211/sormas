@@ -17,6 +17,7 @@ import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
+import lu.formas.views.dashboard.DashboardView;
 import lu.formas.views.dashboard.VaccinationHistoryView;
 import lu.formas.views.profile.ProfileView;
 import lu.formas.views.security.LogoutView;
@@ -67,7 +68,7 @@ abstract public class MainView extends AppLayout {
     private Tabs createMenu() {
         val tabs = new Tabs();
         tabs.add(
-                createTab("Vaccination card"),
+                createTab("Vaccination card", DashboardView.class),
                 createTab("Profile", ProfileView.class),
                 createTab("Logout", LogoutView.class)
         );
@@ -75,12 +76,6 @@ abstract public class MainView extends AppLayout {
         tabs.getTabAt(0).setSelected(true);
 
         return tabs;
-    }
-
-    private Tab createTab(String text) {
-        val tab = new Tab();
-        tab.add(new Button(text));
-        return tab;
     }
 
     private Tab createTab(String text, Class<? extends Component> navigationTarget) {
