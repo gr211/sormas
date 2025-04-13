@@ -1,5 +1,4 @@
-package lu.formas.views.dashboard;
-
+package lu.formas.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -18,28 +17,25 @@ import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
+import lu.formas.views.dashboard.VaccinationHistoryView;
 import lu.formas.views.profile.ProfileView;
 import lu.formas.views.security.LogoutView;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("dashboard")
-@RolesAllowed({"USER"})
 @CssImport("./styles/shared-styles.css")
-public class DashboardView extends AppLayout {
+abstract public class MainView extends AppLayout {
 
     transient AuthenticationContext authContext;
     SecurityService securityService;
 
     private final PatientService personService;
 
-    @Autowired
-    public DashboardView(PatientService personService, AuthenticationContext authContext, SecurityService securityService) {
+    public MainView(PatientService personService, AuthenticationContext authContext, SecurityService securityService) {
         this.authContext = authContext;
         this.securityService = securityService;
         this.personService = personService;
 
         createHeader();
-        setContent(new VaccinationHistoryView());
     }
 
     private void createHeader() {

@@ -3,7 +3,6 @@ package lu.formas.security;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
 import lombok.val;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +11,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Objects;
 
 @Component
 public class SecurityService {
@@ -19,16 +19,20 @@ public class SecurityService {
     private static final String LOGOUT_SUCCESS_URL = "/login";
 
     public UserDetails getAuthenticatedUser() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Object principal = context.getAuthentication().getPrincipal();
+        val context = SecurityContextHolder.getContext();
+        val authentication = context.getAuthentication();
 
-        if (principal instanceof UserDetails) {
-            return (UserDetails) principal;
-        }
+        if (Objects.nonNull(authentication)) {
+            val principal = authentication.getPrincipal();
 
-        if (principal instanceof Jwt) {
-            val username = ((Jwt) principal).getSubject();
-            return new User(username, "", Collections.emptyList());
+            if (principal instanceof UserDetails) {
+                return (UserDetails) principal;
+            }
+
+            if (principal instanceof Jwt) {
+                val username = ((Jwt) principal).getSubject();
+                return new User(username, "", Collections.emptyList());
+            }
         }
 
         // Anonymous or no authentication.
