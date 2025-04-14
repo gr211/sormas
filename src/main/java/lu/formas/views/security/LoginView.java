@@ -9,12 +9,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lu.formas.services.PatientService;
+import lu.formas.views.MainView;
 import lu.formas.views.security.forms.LoginForm;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import static com.vaadin.flow.component.Key.ENTER;
 
-@Route("login")
+@Route(value = "login", layout = MainView.class)
 @PageTitle("Login | Vaadin App")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {

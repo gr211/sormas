@@ -7,10 +7,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
+import lu.formas.views.MainView;
 import lu.formas.views.security.forms.PatientRegistrationForm;
 import lu.formas.services.PatientService;
 
-@Route("register")
+@Route(value = "register", layout = MainView.class)
 @PageTitle("Register")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {

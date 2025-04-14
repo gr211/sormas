@@ -2,7 +2,6 @@ package lu.formas.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
@@ -10,21 +9,21 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.Layout;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.AuthenticationContext;
-import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.views.dashboard.DashboardView;
-import lu.formas.views.dashboard.VaccinationHistoryView;
 import lu.formas.views.profile.ProfileView;
 import lu.formas.views.security.LogoutView;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/shared-styles.css")
-abstract public class MainView extends AppLayout {
+@Layout
+@AnonymousAllowed
+public class MainView extends AppLayout {
 
     transient AuthenticationContext authContext;
     SecurityService securityService;

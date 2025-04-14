@@ -7,15 +7,16 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.AuthenticationContext;
+import lu.formas.security.SecurityService;
 
-@Route("logout")
+@Route(value = "logout", autoLayout = false)
 @AnonymousAllowed
 public class LogoutView extends VerticalLayout implements BeforeEnterObserver {
 
-    private final AuthenticationContext authenticationContext;
+    private final SecurityService securityService;
 
-    public LogoutView(AuthenticationContext authenticationContext) {
-        this.authenticationContext = authenticationContext;
+    public LogoutView(SecurityService securityService) {
+        this.securityService = securityService;
     }
 
     @Override
@@ -25,6 +26,6 @@ public class LogoutView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     public void logout() {
-        authenticationContext.logout();
+        securityService.logout();
     }
 }
