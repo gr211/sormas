@@ -4,8 +4,11 @@ import lombok.val;
 import lu.formas.repository.PatientRepository;
 import lu.formas.repository.model.Login;
 import lu.formas.repository.model.Patient;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -36,5 +39,9 @@ public class PatientService {
 
     public boolean exists(Patient patient) {
         return repository.findByEmail(patient.getEmail()).isPresent();
+    }
+
+    public Optional<Patient> get(UserDetails userDetails) {
+        return repository.findByEmail(userDetails.getUsername());
     }
 }

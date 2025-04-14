@@ -1,44 +1,42 @@
 package lu.formas.views.profile;
 
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.views.MainView;
+import lu.formas.views.profile.forms.PatienProfileForm;
 import lu.formas.views.security.forms.PatientRegistrationForm;
 
 @RolesAllowed({"USER"})
-@Tag("div")
 @Route(value = "profile", layout = MainView.class)
+@PageTitle("Edit profile")
 public class ProfileView extends VerticalLayout {
 
-    transient AuthenticationContext authContext;
-    SecurityService securityService;
+    private final PatienProfileForm form;
 
-    private final PatientRegistrationForm form;
+    public ProfileView(PatientService patientService, SecurityService securityService) {
+        form = new PatienProfileForm(patientService, securityService);
 
-    public ProfileView(PatientService patientService, AuthenticationContext authContext, SecurityService securityService) {
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setHorizontalComponentAlignment(Alignment.CENTER, form);
 
-        this.form = new PatientRegistrationForm(patientService);
+        addClassName("profile-view");
 
-        add(addForm());
+        add(new H1("Your profile"), addForm());
     }
 
     private VerticalLayout addForm() {
         val content = new VerticalLayout(form);
-        content.setWidthFull();
-
-        content.setAlignItems(FlexComponent.Alignment.CENTER);
-        content.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-
-        content.setAlignItems(FlexComponent.Alignment.CENTER);
-        content.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        content.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, form);
+        content.addClassNames("register-view");
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
 
         return content;
     }
