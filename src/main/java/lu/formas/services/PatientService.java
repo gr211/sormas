@@ -37,6 +37,10 @@ public class PatientService {
         return false;
     }
 
+    public void delete(Patient patient) {
+        repository.deletePatientByEmail(patient.getEmail());
+    }
+
     public boolean exists(Patient patient) {
         return repository.findByEmail(patient.getEmail()).isPresent();
     }

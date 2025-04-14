@@ -48,5 +48,8 @@ class PatientDetailsServiceTest {
         assert user.getPassword().equals("password");
         assert user.getAuthorities().size() == 1;
         assert user.getAuthorities().stream().findFirst().get().getAuthority().equals("ROLE_USER");
+
+        Mockito.verify(patientRepository).findByEmail(Mockito.eq("email@email.com"));
+        Mockito.verifyNoMoreInteractions(patientRepository);
     }
 }
