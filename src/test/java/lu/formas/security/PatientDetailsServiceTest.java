@@ -41,7 +41,7 @@ class PatientDetailsServiceTest {
 
         Mockito.when(patientRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(patient));
 
-        val user = patientDetailsService.loadUserByUsername("user");
+        val user = patientDetailsService.loadUserByUsername("email@email.com");
 
         assert user != null;
         assert user.getUsername().equals("email@email.com");

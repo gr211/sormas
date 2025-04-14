@@ -14,7 +14,7 @@ import lu.formas.repository.model.Patient;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 
-public class PatienProfileForm extends FormLayout {
+public class PatientProfileForm extends FormLayout {
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private TextField email = new TextField("Email");
@@ -25,9 +25,14 @@ public class PatienProfileForm extends FormLayout {
     private PatientService patientService;
     private SecurityService securityService;
 
-    public PatienProfileForm(PatientService patientService, SecurityService securityService) {
+    private final ConfirmDelete confirmDelete;
+
+    public PatientProfileForm(PatientService patientService, SecurityService securityService) {
+        binder.bindInstanceFields(this);
+
         this.patientService = patientService;
         this.securityService = securityService;
+        this.confirmDelete = modal();
 
         val buttons = new HorizontalLayout(remove);
         remove.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -42,16 +47,21 @@ public class PatienProfileForm extends FormLayout {
 
         add(civil, email, buttons);
 
-        binder.bindInstanceFields(this);
-
         remove.addClickListener(this::remove);
 
         fillPatientInfo();
     }
 
+    private ConfirmDelete modal() {
+        val patient = new Patient();
+        binder.writeBeanIfValid(patient);
+
+        return new ConfirmDelete(patient, patientService, securityService);
+    }
+
     @SneakyThrows
     private void remove(ClickEvent<Button> event) {
-        System.out.println("XXX");
+        confirmDelete.open();
 //        val patient = new Patient();
 //        binder.writeBeanIfValid(patient);
 //

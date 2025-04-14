@@ -9,18 +9,18 @@ import lombok.val;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.views.MainView;
-import lu.formas.views.profile.forms.PatienProfileForm;
-import lu.formas.views.security.forms.PatientRegistrationForm;
+import lu.formas.views.profile.forms.PatientProfileForm;
 
 @RolesAllowed({"USER"})
 @Route(value = "profile", layout = MainView.class)
 @PageTitle("Edit profile")
 public class ProfileView extends VerticalLayout {
 
-    private final PatienProfileForm form;
+    private final PatientProfileForm form;
 
     public ProfileView(PatientService patientService, SecurityService securityService) {
-        form = new PatienProfileForm(patientService, securityService);
+
+        form = new PatientProfileForm(patientService, securityService);
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -41,3 +41,4 @@ public class ProfileView extends VerticalLayout {
         return content;
     }
 }
+
