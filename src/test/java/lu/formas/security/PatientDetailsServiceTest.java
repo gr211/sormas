@@ -41,12 +41,15 @@ class PatientDetailsServiceTest {
 
         Mockito.when(patientRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(patient));
 
-        val user = patientDetailsService.loadUserByUsername("user");
+        val user = patientDetailsService.loadUserByUsername("email@email.com");
 
         assert user != null;
         assert user.getUsername().equals("email@email.com");
         assert user.getPassword().equals("password");
         assert user.getAuthorities().size() == 1;
         assert user.getAuthorities().stream().findFirst().get().getAuthority().equals("ROLE_USER");
+
+        Mockito.verify(patientRepository).findByEmail(Mockito.eq("email@email.com"));
+        Mockito.verifyNoMoreInteractions(patientRepository);
     }
 }

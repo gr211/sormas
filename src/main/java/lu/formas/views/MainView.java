@@ -1,12 +1,10 @@
 package lu.formas.views;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -23,8 +21,6 @@ import lu.formas.services.PatientService;
 import lu.formas.views.dashboard.DashboardView;
 import lu.formas.views.profile.ProfileView;
 import lu.formas.views.security.LogoutView;
-
-import java.util.Objects;
 
 @CssImport("./styles/shared-styles.css")
 @Layout
@@ -58,8 +54,8 @@ public class MainView extends AppLayout implements BeforeEnterObserver {
         logoLayout.setSpacing(true);
 
         val header = new HorizontalLayout(logoLayout);
+        header.setClassName("header");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-        header.setWidth("100%");
 
         menu = new Tabs();
         menu.setClassName("header-menu");
@@ -81,16 +77,12 @@ public class MainView extends AppLayout implements BeforeEnterObserver {
 
     private Tab createTab(String text, Class<? extends Component> navigationTarget) {
         val tab = new Tab();
+
         tab.add(new RouterLink(text, navigationTarget));
         return tab;
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        UI.getCurrent().getPage().fetchCurrentURL(System.out::println);
-
-        if (Objects.isNull(securityService.getAuthenticatedUser())) {
-//            menu.removeAll();
-        }
     }
 }

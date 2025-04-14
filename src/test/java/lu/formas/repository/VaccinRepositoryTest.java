@@ -2,7 +2,7 @@ package lu.formas.repository;
 
 import jakarta.persistence.EntityManager;
 import lombok.val;
-import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.Vaccin;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
-import java.util.Optional;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class PatientRepositoryTest {
+public class VaccinRepositoryTest {
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -25,22 +24,12 @@ public class PatientRepositoryTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private PatientRepository patientRepository;
+    private VaccinRepository vaccinRepository;
 
     @Test
-    void creating_then_deleting_patients() {
-        val patient = new Patient();
-        patient.setEmail("john@example.com");
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setPassword("password");
-
-        patientRepository.save(patient);
-
-        assertEquals("Existing patient was not found", Optional.of(patient), patientRepository.findByEmail("john@example.com"));
-
-        patientRepository.deletePatientByEmail("john@example.com");
-        assertEquals("Existing patient should not have been found", Optional.empty(), patientRepository.findByEmail("john@example.com"));
+    void creating_a_vaccine() {
+        // vaccines are created via data.sql
+        assertEquals("15 vaccines should have been found", 15, vaccinRepository.findAll().size());
     }
 
 }

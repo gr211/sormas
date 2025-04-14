@@ -1,7 +1,6 @@
 package lu.formas.views.security;
 
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -9,6 +8,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
 import lu.formas.services.PatientService;
 import lu.formas.views.MainView;
+import lu.formas.views.common.SormasLogo;
 import lu.formas.views.security.forms.LoginForm;
 import org.springframework.security.authentication.AuthenticationManager;
 
@@ -36,14 +36,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         val title = new H1("Vaccination Management App");
 
-        val logo = new Image("images/sormas.png", "Sormas");
-        logo.addClassName("logo");
-
-        val p = new Paragraph("");
-        p.add(new RouterLink("New ? Register here", RegistrationView.class));
+        val p = new Paragraph(new RouterLink("New ? Register here", RegistrationView.class));
 
         // Add components to layout
-        add(logo, title, login, p);
+        add(new SormasLogo(), title, login, p);
     }
 
     private void submitForm() {

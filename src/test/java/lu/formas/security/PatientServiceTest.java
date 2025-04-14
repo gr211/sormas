@@ -45,13 +45,16 @@ class PatientServiceTest {
         patient.setLastName("lastName");
         patient.setPassword(password);
 
-        Mockito.when(patientRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(patient));
+        Mockito.when(patientRepository.findByEmail(Mockito.eq("email@email.com"))).thenReturn(Optional.of(patient));
 
         val login = new Login();
         login.setPassword("password");
         login.setEmail("email@email.com");
         val result = service.login(login);
         assert result;
+
+        Mockito.verify(patientRepository).findByEmail(Mockito.anyString());
+        Mockito.verifyNoMoreInteractions(patientRepository);
     }
 
     @Test
@@ -67,12 +70,34 @@ class PatientServiceTest {
         patient.setLastName("lastName");
         patient.setPassword(password);
 
-        Mockito.when(patientRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(patient));
+        Mockito.when(patientRepository.findByEmail(Mockito.eq("email@email.com"))).thenReturn(Optional.of(patient));
 
         val login = new Login();
         login.setPassword("different-password");
         login.setEmail("email@email.com");
         val result = service.login(login);
         assert !result;
+
+        Mockito.verify(patientRepository).findByEmail(Mockito.anyString());
+        Mockito.verifyNoMoreInteractions(patientRepository);
+    }
+
+    @Test
+    @SneakyThrows
+    public void test_Delete_Patient_From_Database() {
+        val service = new PatientService(patientRepository, passwordEncoder);
+
+        val patient = new Patient();
+        patient.setEmail("email@email.com");
+        patient.setFirstName("firstName");
+        patient.setLastName("lastName");
+        patient.setPassword("password");
+
+        Mockito.doNothing().when(patientRepository).deletePatientByEmail(Mockito.anyString());
+
+        service.delete(patient);
+
+        Mockito.verify(patientRepository).deletePatientByEmail(Mockito.eq("email@email.com"));
+        Mockito.verifyNoMoreInteractions(patientRepository);
     }
 }
