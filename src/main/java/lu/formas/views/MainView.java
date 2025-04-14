@@ -1,14 +1,18 @@
 package lu.formas.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Layout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -20,15 +24,19 @@ import lu.formas.views.dashboard.DashboardView;
 import lu.formas.views.profile.ProfileView;
 import lu.formas.views.security.LogoutView;
 
+import java.util.Objects;
+
 @CssImport("./styles/shared-styles.css")
 @Layout
 @AnonymousAllowed
-public class MainView extends AppLayout {
+public class MainView extends AppLayout implements BeforeEnterObserver {
 
     transient AuthenticationContext authContext;
-    SecurityService securityService;
 
+    private final SecurityService securityService;
     private final PatientService personService;
+
+    Tabs menu;
 
     public MainView(PatientService personService, AuthenticationContext authContext, SecurityService securityService) {
         this.authContext = authContext;
@@ -40,46 +48,49 @@ public class MainView extends AppLayout {
 
     private void createHeader() {
         val sormasLogo = new Image("images/sormas.png", "Sormas");
-        sormasLogo.setHeight("40px");
-        sormasLogo.getStyle().set("margin-left", "10px");
+        sormasLogo.setClassName("header-logo");
 
         val sormasTitle = new H1("Sormas");
-        sormasTitle.getStyle()
-                .set("font-size", "var(--lumo-font-size-l)")
-                .set("margin", "0");
-
-        val menu = createMenu();
-        menu.setWidth("100%");
-        menu.getStyle().set("justify-content", "flex-end");
+        sormasTitle.setClassName("header-title");
 
         val logoLayout = new HorizontalLayout(sormasLogo, sormasTitle);
         logoLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         logoLayout.setSpacing(true);
 
-        val header = new HorizontalLayout(logoLayout, menu);
+        val header = new HorizontalLayout(logoLayout);
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.setWidth("100%");
+
+        menu = new Tabs();
+        menu.setClassName("header-menu");
+        this.createMenu();
         header.add(menu);
 
         addToNavbar(header);
     }
 
-    private Tabs createMenu() {
-        val tabs = new Tabs();
-        tabs.add(
+    private void createMenu() {
+        menu.add(
                 createTab("Vaccination card", DashboardView.class),
                 createTab("Profile", ProfileView.class),
                 createTab("Logout", LogoutView.class)
         );
 
-        tabs.getTabAt(0).setSelected(true);
-
-        return tabs;
+        menu.getTabAt(0).setSelected(true);
     }
 
     private Tab createTab(String text, Class<? extends Component> navigationTarget) {
         val tab = new Tab();
         tab.add(new RouterLink(text, navigationTarget));
         return tab;
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        UI.getCurrent().getPage().fetchCurrentURL(System.out::println);
+
+        if (Objects.isNull(securityService.getAuthenticatedUser())) {
+//            menu.removeAll();
+        }
     }
 }

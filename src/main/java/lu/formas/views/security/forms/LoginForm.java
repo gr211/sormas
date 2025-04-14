@@ -58,8 +58,6 @@ public class LoginForm extends FormLayout {
         login.addClickListener(this::login);
 
         configureErrorMessage();
-
-        setMaxWidth("500px");
     }
 
     private void configureErrorMessage() {

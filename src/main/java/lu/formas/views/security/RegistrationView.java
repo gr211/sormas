@@ -2,6 +2,7 @@ package lu.formas.views.security;
 
 
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -26,13 +27,15 @@ public class RegistrationView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setHorizontalComponentAlignment(Alignment.CENTER, form);
 
-
-        addClassName("list-view");
+        addClassName("register-view");
         setSizeFull();
 
         configureForm();
 
-        add(new H1("Register"), getContent());
+        val logo = new Image("images/sormas.png", "Sormas");
+        logo.addClassName("logo");
+
+        add(logo, new H1("Registration"), getContent());
     }
 
     private VerticalLayout getContent() {

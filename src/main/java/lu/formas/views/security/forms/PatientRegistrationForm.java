@@ -51,8 +51,6 @@ public class PatientRegistrationForm extends FormLayout {
         save.addClickListener(this::save);
         close.addClickListener(this::close);
 
-        setMaxWidth("500px");
-
         binder.forField(password).withValidator(this::passwordValidator).bind("password");
         binder.forField(email).withValidator(this::emailValidator).bind("email");
 

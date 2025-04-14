@@ -10,3 +10,33 @@
 }
 
 
+.header-logo {
+    margin-left: 10px;
+    height: 40px;
+}
+
+.header-title {
+    font-size: var(--lumo-font-size-l);
+    margin: 0;
+}
+
+.header-menu {
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.login-view, .register-view {
+    h1 {
+        margin-bottom: var(--lumo-space-m);
+    }
+
+    .logo {
+        height: 128px;
+        width: auto;
+        margin-bottom: var(--lumo-space-l);
+    }
+}
+
+vaadin-form-layout {
+    max-width: 500px;
+}
