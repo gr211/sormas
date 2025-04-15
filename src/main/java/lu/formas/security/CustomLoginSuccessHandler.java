@@ -18,7 +18,6 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         // Log successful login
         String username = authentication.getName();
-        System.out.println("User " + username + " logged in successfully");
 
         // Use the default handler behavior
         super.onAuthenticationSuccess(request, response, authentication);

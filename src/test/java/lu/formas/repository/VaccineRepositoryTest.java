@@ -1,8 +1,6 @@
 package lu.formas.repository;
 
 import jakarta.persistence.EntityManager;
-import lombok.val;
-import lu.formas.repository.model.Vaccin;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class VaccinRepositoryTest {
+public class VaccineRepositoryTest {
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -24,12 +22,11 @@ public class VaccinRepositoryTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private VaccinRepository vaccinRepository;
+    private VaccineRepository vaccinRepository;
 
     @Test
     void creating_a_vaccine() {
         // vaccines are created via data.sql
         assertEquals("15 vaccines should have been found", 15, vaccinRepository.findAll().size());
     }
-
 }

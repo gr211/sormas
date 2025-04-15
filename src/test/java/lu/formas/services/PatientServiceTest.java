@@ -1,4 +1,4 @@
-package lu.formas.security;
+package lu.formas.services;
 
 import lombok.SneakyThrows;
 import lombok.val;
@@ -6,7 +6,6 @@ import lu.formas.Application;
 import lu.formas.repository.PatientRepository;
 import lu.formas.repository.model.Login;
 import lu.formas.repository.model.Patient;
-import lu.formas.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

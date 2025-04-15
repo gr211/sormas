@@ -7,6 +7,7 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
 import lu.formas.services.PatientService;
+import lu.formas.services.UserService;
 import lu.formas.views.MainView;
 import lu.formas.views.common.SormasLogo;
 import lu.formas.views.security.forms.LoginForm;
@@ -21,9 +22,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     public final LoginForm login;
 
-    public LoginView(PatientService patientService, AuthenticationManager authenticationManager) {
+    public LoginView(UserService userService, AuthenticationManager authenticationManager) {
 
-        login = new LoginForm(patientService, authenticationManager);
+        login = new LoginForm(userService, authenticationManager);
 
         addClassName("login-view");
         setSizeFull();

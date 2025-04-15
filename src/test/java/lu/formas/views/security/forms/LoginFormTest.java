@@ -3,6 +3,7 @@ package lu.formas.views.security.forms;
 import lombok.val;
 import lu.formas.Application;
 import lu.formas.services.PatientService;
+import lu.formas.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -27,7 +28,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 public class LoginFormTest {
 
     @MockitoBean
-    PatientService service;
+    UserService service;
 
     @MockitoBean
     AuthenticationManager authenticationManager;

@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.val;
 import lu.formas.repository.model.Login;
 import lu.formas.services.PatientService;
+import lu.formas.services.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,11 +34,11 @@ public class LoginForm extends FormLayout {
 
     private Binder<Login> binder = new BeanValidationBinder<>(Login.class);
 
-    private final PatientService patientService;
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public LoginForm(PatientService patientService, AuthenticationManager authenticationManager) {
-        this.patientService = patientService;
+    public LoginForm(UserService userService, AuthenticationManager authenticationManager) {
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
 
         val buttons = new HorizontalLayout(login);
@@ -45,8 +46,10 @@ public class LoginForm extends FormLayout {
 
         add(errorMessage, email, password, buttons);
 
+        email.setValue("a@a.com");
         email.setPrefixComponent(new Icon(VaadinIcon.USER));
 
+        password.setValue("123456789");
         password.setPrefixComponent(new Icon(VaadinIcon.LOCK));
 
         setRequiredIndicatorVisible(email, password);

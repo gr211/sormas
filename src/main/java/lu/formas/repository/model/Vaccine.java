@@ -3,25 +3,23 @@ package lu.formas.repository.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.Set;
 
 @Entity
-@Table(name = "vaccins")
+@Table(name = "vaccines")
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Vaccin {
+@EqualsAndHashCode(of = {"id"})
+public class Vaccine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 256)
     private String name;
-
 
     @Min(value = 0)
     private Integer maturityMonth;
@@ -31,4 +29,7 @@ public class Vaccin {
 
     @Size(max = 256)
     private String goals;
+
+    @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PatientVaccine> patientVaccines;
 }
