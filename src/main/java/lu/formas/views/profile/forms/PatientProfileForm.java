@@ -28,6 +28,7 @@ public class PatientProfileForm extends FormLayout {
     private final ConfirmDelete confirmDelete;
 
     public PatientProfileForm(PatientService patientService, SecurityService securityService) {
+        fillPatientInfo(patientService, securityService);
         binder.bindInstanceFields(this);
 
         this.patientService = patientService;
@@ -47,31 +48,19 @@ public class PatientProfileForm extends FormLayout {
 
         add(civil, email, buttons);
 
-        remove.addClickListener(this::remove);
-
-        fillPatientInfo();
+        remove.addClickListener(this::openModal);
     }
 
     private ConfirmDelete modal() {
-        val patient = new Patient();
-        binder.writeBeanIfValid(patient);
-
-        return new ConfirmDelete(patient, patientService, securityService);
+        return new ConfirmDelete(binder.getBean(), patientService, securityService);
     }
 
     @SneakyThrows
-    private void remove(ClickEvent<Button> event) {
+    private void openModal(ClickEvent<Button> event) {
         confirmDelete.open();
-//        val patient = new Patient();
-//        binder.writeBeanIfValid(patient);
-//
-//        if (binder.isValid()) {
-//            patientService.save(patient);
-//            close(event);
-//        }
     }
 
-    public void fillPatientInfo() {
+    public void fillPatientInfo(PatientService patientService, SecurityService securityService) {
         val userDetails = securityService.getAuthenticatedUser();
 
         patientService.get(userDetails).ifPresent(p -> {

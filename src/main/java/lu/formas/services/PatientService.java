@@ -7,6 +7,7 @@ import lu.formas.repository.model.Patient;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -37,6 +38,7 @@ public class PatientService {
         return false;
     }
 
+    @Transactional
     public void delete(Patient patient) {
         repository.deletePatientByEmail(patient.getEmail());
     }

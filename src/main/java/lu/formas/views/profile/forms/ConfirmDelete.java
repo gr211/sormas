@@ -19,7 +19,6 @@ public class ConfirmDelete extends Dialog {
         setWidth("400px");
         setHeight("200px");
 
-
         val dialogLayout = new VerticalLayout();
         val message = new H2("Are you sure you want to proceed?");
         dialogLayout.add(message);
