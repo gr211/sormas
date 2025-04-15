@@ -32,6 +32,6 @@ public class DashboardView extends VerticalLayout {
         this.personService = patientService;
         this.vaccineService = vaccineService;
 
-        add(new VaccinationHistoryView(patientService, vaccineService));
+        add(new VaccinationHistoryView(patientService, vaccineService, securityService));
     }
 }

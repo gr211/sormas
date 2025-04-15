@@ -9,7 +9,6 @@ import lu.formas.repository.model.Vaccine;
 import java.util.Comparator;
 
 @EqualsAndHashCode(of = {"vaccine"})
-@ToString
 @Getter
 public class VaccinesByMaturityValue {
 

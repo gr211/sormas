@@ -15,22 +15,34 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.Getter;
 import lombok.val;
+import lu.formas.repository.model.PatientVaccine;
+import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
 import lu.formas.services.model.VaccinesByMaturityValue;
 import lu.formas.views.profile.forms.AddVaccineBean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
 
 @Getter
+@Transactional
 public class AddVaccineModal extends Dialog {
     private Select<VaccinesByMaturityValue> select = new Select<>();
     private DatePicker datePicker = new DatePicker("Day of vaccination");
+
     private final VaccineService vaccineService;
+    private final SecurityService securityService;
 
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
 
-    public AddVaccineModal(PatientService patientService, VaccineService vaccineService) {
+    public AddVaccineModal(PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
         this.vaccineService = vaccineService;
+        this.securityService = securityService;
 
         binder.forField(select).asRequired().bind(AddVaccineBean::getSelect, AddVaccineBean::setSelect);
         binder.forField(datePicker)
@@ -59,10 +71,25 @@ public class AddVaccineModal extends Dialog {
             val addButton = new Button("Add", event -> {
 
                 binder.writeBeanIfValid(bean);
-                System.out.println("isValid " + binder.isValid());
-                System.out.println("bean" + bean);
 
-//                close();
+                val authenticatedUser = securityService.getAuthenticatedUser();
+                if (Objects.nonNull(authenticatedUser)) {
+                    val email = authenticatedUser.getUsername();
+                    val patient = patientService.byEMail(email).get();
+                    val vaccine = select.getValue().getVaccine();
+                    val date = datePicker.getValue();
+
+                    val patientVaccine = new PatientVaccine();
+                    patientVaccine.setPatient(patient);
+                    patientVaccine.setVaccine(vaccine);
+                    patientVaccine.setVaccineDate(date);
+
+                    val l = patient.getPatientVaccines();
+                    l.add(patientVaccine);
+                    patient.setPatientVaccines(l);
+                    patientService.save(patient);
+                }
+                close();
             });
             addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 

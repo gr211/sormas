@@ -3,6 +3,7 @@ package lu.formas.views.dashboard;
 import lombok.val;
 import lu.formas.Application;
 import lu.formas.repository.model.Vaccine;
+import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
 import lu.formas.services.model.VaccinesByMaturity;
@@ -32,6 +33,9 @@ class AddVaccineModalTest {
     PatientService patientService;
 
     @MockitoBean
+    SecurityService securityService;
+
+    @MockitoBean
     VaccineService vaccineService;
 
     @Test
@@ -48,7 +52,7 @@ class AddVaccineModalTest {
         val vaccineByMaturity = new VaccinesByMaturity(Arrays.asList(vaccine1, vaccine2));
         Mockito.when(vaccineService.groupedByMaturity()).thenReturn(vaccineByMaturity);
 
-        val modal = new AddVaccineModal(patientService, vaccineService);
+        val modal = new AddVaccineModal(patientService, vaccineService, securityService);
 
         val vaccines = modal.getSelect().getGenericDataView().getItems().collect(Collectors.toList());
 

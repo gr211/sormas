@@ -38,6 +38,6 @@ public class Patient {
     @Size(message = "Maximum size is 128", max = 128)
     private String password;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<PatientVaccine> patientVaccines;
 }
