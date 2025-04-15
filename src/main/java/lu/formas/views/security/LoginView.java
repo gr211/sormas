@@ -36,8 +36,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         val title = new H1("Vaccination Management App");
 
-        val p = new Paragraph("");
-        p.add(new RouterLink("New ? Register here", RegistrationView.class));
+        val p = new Paragraph(new RouterLink("New ? Register here", RegistrationView.class));
 
         // Add components to layout
         add(new SormasLogo(), title, login, p);
