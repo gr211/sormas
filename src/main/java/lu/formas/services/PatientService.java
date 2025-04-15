@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PatientService {
     private final PatientRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -38,7 +39,6 @@ public class PatientService {
         return false;
     }
 
-    @Transactional
     public void delete(Patient patient) {
         repository.deletePatientByEmail(patient.getEmail());
     }
