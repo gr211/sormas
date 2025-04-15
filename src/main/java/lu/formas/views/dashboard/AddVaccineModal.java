@@ -4,24 +4,21 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import lombok.Getter;
 import lombok.val;
-import lu.formas.repository.VaccinRepository;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.Vaccine;
-import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
+import lu.formas.services.model.VaccinesByMaturityValue;
 
+@Getter
 public class AddVaccineModal extends Dialog {
-    private Select<Vaccine> select;
+    private Select<VaccinesByMaturityValue> select;
     private final VaccineService vaccineService;
 
     public AddVaccineModal(PatientService patientService, VaccineService vaccineService) {
@@ -31,8 +28,8 @@ public class AddVaccineModal extends Dialog {
         setCloseOnOutsideClick(true);
         setClassName("confirm-delete");
 
-        setWidth("1200px");
-        setHeight("1200px");
+        setMinHeight("500px");
+        setMinWidth("800px");
 
         prepareForm();
 
@@ -58,26 +55,21 @@ public class AddVaccineModal extends Dialog {
         add(dialogLayout, select);
     }
 
-    void prepareForm() {
-        val li = vaccineService.vaccines();
+    public void prepareForm() {
+        val vaccinesByMaturity = vaccineService.groupedByMaturity();
 
         select = new Select<>();
         select.setLabel("Select vaccine");
-        select.setItems(li);
+        select.setItems(vaccinesByMaturity.flatten());
         select.setPlaceholder("Select a vaccine");
 
-        select.addComponents(li.get(5), new Hr());
-
-        select.setWidth("300px");
-        select.setHeight("300px");
-
-        select.setRenderer(
-                new ComponentRenderer<>(vaccine -> {
-                    return new Div(vaccine.getName());
-                })
-
-        );
+        select.setItemEnabledProvider(
+                item -> !item.isPlaceholder());
 
         select.setWidthFull();
+
+        select.setRenderer(
+                new ComponentRenderer<>(vaccine -> new Div(vaccine.getVaccine().getName()))
+        );
     }
 }

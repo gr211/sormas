@@ -20,9 +20,8 @@ public class Vaccine {
     @Size(max = 256)
     private String name;
 
-
     @Min(value = 0)
-    private int maturityMonth;
+    private Integer maturityMonth;
 
     @Size(max = 256)
     private String description;

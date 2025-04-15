@@ -18,4 +18,8 @@ public class VaccinesByMaturityKey {
     public String getMaturityName() {
         return String.format("%d months", maturityKey);
     }
+
+    public static VaccinesByMaturityKey month(Integer maturityKey) {
+        return new VaccinesByMaturityKey(maturityKey);
+    }
 }

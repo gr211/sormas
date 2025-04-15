@@ -51,4 +51,3 @@ VALUES ('RORV (1st dose)', 12, 'Measles, Mumps, Rubella, Varicella', 'Vaccine fo
 -- 13 months
 INSERT INTO vaccins (NAME, MATURITY_MONTH, DESCRIPTION, GOALS)
 VALUES ('Meningococcal ACWY (1st dose) ', 13, 'Meningococcal ACWY', 'Vaccine for Meningococcus ACWY');
-
