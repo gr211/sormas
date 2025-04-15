@@ -4,7 +4,7 @@ VALUES ('RSV', 0, 'Respiratory Syncytial Virus', 'Vaccine for RSV');
 
 -- 2 months
 INSERT INTO vaccins (NAME, MATURITY_MONTH, DESCRIPTION, GOALS)
-VALUES ('D, T, aP, Hib, IPV, Hep B)', 2,
+VALUES ('D, T, aP, Hib, IPV, Hep B', 2,
         'Diphtheria, Tetanus, Pertussis, Haemophilus influenzae type b, Inactivated Polio Virus, Hepatitis B',
         'Combination vaccine for DTPaHibIPVHepB');
 INSERT INTO vaccins (NAME, MATURITY_MONTH, DESCRIPTION, GOALS)

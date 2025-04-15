@@ -2,6 +2,7 @@ package lu.formas.views.dashboard;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
@@ -33,26 +34,29 @@ public class AddVaccineModal extends Dialog {
 
         prepareForm();
 
-        val dialogLayout = new VerticalLayout();
-        val message = new H2("Add vaccination");
-        dialogLayout.add(message);
+        val modalLayout = new VerticalLayout();
+        val message = new H2("Which vaccine would you like to add?");
+        modalLayout.add(message);
 
-        val buttonsLayout = new HorizontalLayout();
-        val confirmButton = new Button("Confirm", event -> {
-            Notification.show("Operation approved");
-            close();
-        });
-        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        val datePicker = new DatePicker("Day of vaccination");
+        modalLayout.add(datePicker);
 
-        val cancelButton = new Button("Cancel", event -> {
-            Notification.show("Operation cancelled");
-            close();
-        });
-        buttonsLayout.add(confirmButton, cancelButton);
+        val buttonLayout = new HorizontalLayout() {{
+            val addButton = new Button("Add", event -> {
+                close();
+            });
+            addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
+            val closeButton = new Button("Close", event -> {
+                close();
+            });
 
-        dialogLayout.add(buttonsLayout);
-        add(dialogLayout, select);
+            add(addButton, closeButton);
+        }};
+
+        modalLayout.add(select, buttonLayout);
+
+        add(modalLayout);
     }
 
     public void prepareForm() {
