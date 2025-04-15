@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "patients")
 @NoArgsConstructor
@@ -35,4 +37,7 @@ public class Patient {
     @NotEmpty
     @Size(message = "Maximum size is 128", max = 128)
     private String password;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PatientVaccine> patientVaccines;
 }

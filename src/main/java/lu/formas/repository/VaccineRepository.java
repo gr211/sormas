@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface VaccinRepository extends JpaRepository<Vaccine, Long> {
+public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     List<Vaccine> findAll();
 
 

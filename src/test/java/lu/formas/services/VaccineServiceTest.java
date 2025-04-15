@@ -3,7 +3,7 @@ package lu.formas.services;
 import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.Application;
-import lu.formas.repository.VaccinRepository;
+import lu.formas.repository.VaccineRepository;
 import lu.formas.repository.model.Vaccine;
 import lu.formas.services.model.VaccinesByMaturityKey;
 import lu.formas.services.model.VaccinesByMaturityValue;
@@ -28,7 +28,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 class VaccineServiceTest {
 
     @MockitoBean
-    VaccinRepository vaccinRepository;
+    VaccineRepository vaccinRepository;
 
     @Test
     @SneakyThrows

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "vaccins")
 @NoArgsConstructor
@@ -28,4 +30,7 @@ public class Vaccine {
 
     @Size(max = 256)
     private String goals;
+
+    @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PatientVaccine> patientVaccines;
 }

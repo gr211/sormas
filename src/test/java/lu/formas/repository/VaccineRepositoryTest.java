@@ -22,7 +22,7 @@ public class VaccineRepositoryTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private VaccinRepository vaccinRepository;
+    private VaccineRepository vaccinRepository;
 
     @Test
     void creating_a_vaccine() {

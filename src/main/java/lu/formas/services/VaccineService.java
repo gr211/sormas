@@ -1,6 +1,6 @@
 package lu.formas.services;
 
-import lu.formas.repository.VaccinRepository;
+import lu.formas.repository.VaccineRepository;
 import lu.formas.repository.model.Vaccine;
 import lu.formas.services.model.VaccinesByMaturity;
 import org.springframework.data.domain.Sort;
@@ -13,9 +13,9 @@ import java.util.List;
 @Transactional
 public class VaccineService {
 
-    private final VaccinRepository vaccinRepository;
+    private final VaccineRepository vaccinRepository;
 
-    public VaccineService(VaccinRepository vaccinRepository) {
+    public VaccineService(VaccineRepository vaccinRepository) {
         this.vaccinRepository = vaccinRepository;
     }
 
