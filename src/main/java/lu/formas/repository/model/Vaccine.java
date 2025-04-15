@@ -3,10 +3,7 @@ package lu.formas.repository.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "vaccins")
@@ -14,7 +11,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Vaccin {
+@EqualsAndHashCode(of = {"id"})
+public class Vaccine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +22,7 @@ public class Vaccin {
 
 
     @Min(value = 0)
-    private Integer maturityMonth;
+    private int maturityMonth;
 
     @Size(max = 256)
     private String description;

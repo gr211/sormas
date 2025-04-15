@@ -1,8 +1,6 @@
 package lu.formas.repository;
 
 import jakarta.persistence.EntityManager;
-import lombok.val;
-import lu.formas.repository.model.Vaccin;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +29,4 @@ public class VaccinRepositoryTest {
         // vaccines are created via data.sql
         assertEquals("15 vaccines should have been found", 15, vaccinRepository.findAll().size());
     }
-
 }
