@@ -50,4 +50,8 @@ public class PatientService {
     public Optional<Patient> get(UserDetails userDetails) {
         return repository.findByEmail(userDetails.getUsername());
     }
+
+    public Optional<Patient> byEMail(String email) {
+        return repository.findByEmail(email);
+    }
 }
