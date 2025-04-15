@@ -16,8 +16,7 @@ public class ConfirmDelete extends Dialog {
     public ConfirmDelete(Patient patient, PatientService patientService, SecurityService securityService) {
         setCloseOnEsc(true);
         setCloseOnOutsideClick(true);
-        setWidth("400px");
-        setHeight("200px");
+        setClassName("confirm-delete");
 
         val dialogLayout = new VerticalLayout();
         val message = new H2("Are you sure you want to proceed?");

@@ -50,3 +50,18 @@ table.tableblock {
     border-spacing: 0;
     margin: var(--docs-space-xl) 0;
 }
+
+.confirm-delete {
+    width: 400px;
+    height: 200px;
+}
+
+.error-message {
+    color: var(--lumo-error-color);
+    background-color: var(--lumo-error-color-10pct);
+    border-radius: var(--lumo-border-radius-m);
+    margin-bottom: var(--lumo-space-m);
+    padding-top: var(--lumo-space-m);
+    padding-bottom: var(--lumo-space-m);
+    text-align: center;
+}
