@@ -14,7 +14,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class VaccinRepositoryTest {
+public class VaccineRepositoryTest {
     @Autowired
     private DataSource dataSource;
     @Autowired
