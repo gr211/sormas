@@ -81,7 +81,7 @@ table.tableblock {
     text-align: center;
 }
 
-.vaccination-history-search-field  {
+.vaccination-history-search-field {
     width: 15%;
     min-width: 100px;
     margin-bottom: var(--lumo-space-m);
