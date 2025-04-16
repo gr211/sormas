@@ -1,6 +1,8 @@
 package lu.formas.repository;
 
 import jakarta.persistence.EntityManager;
+import lombok.val;
+import lu.formas.repository.model.Vaccine;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,19 @@ public class VaccineRepositoryTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private VaccineRepository vaccinRepository;
+    private VaccineRepository vaccineRepository;
 
     @Test
     void creating_a_vaccine() {
+        val vaccine = new Vaccine();
+        vaccine.setId(1L);
+        vaccine.setName("Vaccine");
+        vaccine.setGoals("Goals");
+        vaccine.setDescription("Description");
+
+        vaccineRepository.save(vaccine);
+
         // vaccines are created via data.sql
-        assertEquals("15 vaccines should have been found", 15, vaccinRepository.findAll().size());
+        assertEquals("15 vaccines should have been found", 1, vaccineRepository.findAll().size());
     }
 }

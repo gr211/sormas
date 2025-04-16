@@ -49,6 +49,7 @@ public class UserService {
 
     public void delete(User User) {
         userRepository.deleteUserByEmail(User.getEmail());
+        patientRepository.deletePatientByEmail(User.getEmail());
     }
 
     public boolean exists(User User) {

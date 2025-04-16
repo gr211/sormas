@@ -3,8 +3,9 @@ package lu.formas.security;
 import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.Application;
-import lu.formas.repository.PatientRepository;
+import lu.formas.repository.UserRepository;
 import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -21,27 +22,27 @@ import java.util.Optional;
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = Application.class)
 @AutoConfigureMockMvc
-class PatientDetailsServiceTest {
+class UserDetailsServiceTest {
 
     @MockitoBean
-    PatientRepository patientRepository;
+    UserRepository userRepository;
 
     @Autowired
-    SormasUserDetailsService patientDetailsService;
+    SormasUserDetailsService sormasUserDetailsService;
 
 
     @Test
     @SneakyThrows
     public void test_LoadUserByUsername() {
-        val patient = new Patient();
-        patient.setEmail("email@email.com");
-        patient.setFirstName("firstName");
-        patient.setLastName("lastName");
-        patient.setPassword("password");
+        val expected = new User();
+        expected.setEmail("email@email.com");
+        expected.setFirstName("firstName");
+        expected.setLastName("lastName");
+        expected.setPassword("password");
 
-        Mockito.when(patientRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(patient));
+        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(expected));
 
-        val user = patientDetailsService.loadUserByUsername("email@email.com");
+        val user = sormasUserDetailsService.loadUserByUsername("email@email.com");
 
         assert user != null;
         assert user.getUsername().equals("email@email.com");
@@ -49,7 +50,7 @@ class PatientDetailsServiceTest {
         assert user.getAuthorities().size() == 1;
         assert user.getAuthorities().stream().findFirst().get().getAuthority().equals("ROLE_USER");
 
-        Mockito.verify(patientRepository).findByEmail(Mockito.eq("email@email.com"));
-        Mockito.verifyNoMoreInteractions(patientRepository);
+        Mockito.verify(userRepository).findByEmail(Mockito.eq("email@email.com"));
+        Mockito.verifyNoMoreInteractions(userRepository);
     }
 }

@@ -7,6 +7,7 @@ import lu.formas.repository.PatientRepository;
 import lu.formas.repository.VaccineRepository;
 import lu.formas.repository.model.Patient;
 import lu.formas.repository.model.PatientVaccine;
+import lu.formas.repository.model.Vaccine;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,15 +42,18 @@ class PatientServiceITTest {
     @Test
     @SneakyThrows
     public void test_Save_With_Vaccines() {
-        val service = new PatientService(patientRepository, passwordEncoder);
+        val service = new PatientService(patientRepository);
 
         val patient = new Patient();
         patient.setEmail("abc@gmail.com");
-        patient.setPassword("123456");
-        patient.setFirstName("abc");
-        patient.setLastName("def");
 
-        val vaccine = vaccineRepository.findAll().get(0); // RSV
+        val vaccine = new Vaccine();
+        vaccine.setId(1L);
+        vaccine.setName("Vaccine");
+        vaccine.setGoals("Goals");
+        vaccine.setDescription("Description");
+
+        vaccineRepository.save(vaccine);
 
         val patientVaccine = new PatientVaccine();
         patientVaccine.setVaccine(vaccine);
@@ -63,24 +67,33 @@ class PatientServiceITTest {
         entityManager.clear();
 
         val patient2 = service.byEMail("abc@gmail.com").get();
-        assert patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName().equals("RSV");
+        assert patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName().equals("Vaccine");
     }
 
     @Test
     @SneakyThrows
     public void test_AddVaccines_To_Patient() {
-        val service = new PatientService(patientRepository, passwordEncoder);
+        val service = new PatientService(patientRepository);
 
         val patient = new Patient();
         patient.setEmail("abc@gmail.com");
-        patient.setPassword("123456");
-        patient.setFirstName("abc");
-        patient.setLastName("def");
 
         service.save(patient);
 
-        val vaccine1 = vaccineRepository.findAll().get(0); // RSV
-        val vaccine2 = vaccineRepository.findAll().get(2); // RSV
+        val vaccine1 = new Vaccine();
+        vaccine1.setId(1L);
+        vaccine1.setName("Vaccine");
+        vaccine1.setGoals("Goals");
+        vaccine1.setDescription("Description");
+
+        val vaccine2 = new Vaccine();
+        vaccine2.setId(2L);
+        vaccine2.setName("Vaccine2");
+        vaccine2.setGoals("Goals");
+        vaccine2.setDescription("Description");
+
+        vaccineRepository.save(vaccine1);
+        vaccineRepository.save(vaccine2);
 
         {
             service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now(), "comments");
@@ -89,7 +102,7 @@ class PatientServiceITTest {
             entityManager.clear();
 
             val patient2 = service.byEMail("abc@gmail.com").get();
-            assert patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName().equals("RSV");
+            Assertions.assertEquals("Vaccine", patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName());
         }
 
         {
@@ -108,18 +121,27 @@ class PatientServiceITTest {
     @Test
     @SneakyThrows
     public void test_Add_SameVaccine_Twice_Last_One_Wins() {
-        val service = new PatientService(patientRepository, passwordEncoder);
+        val service = new PatientService(patientRepository);
 
         val patient = new Patient();
         patient.setEmail("abc@gmail.com");
-        patient.setPassword("123456");
-        patient.setFirstName("abc");
-        patient.setLastName("def");
 
         service.save(patient);
 
-        val vaccine1 = vaccineRepository.findAll().get(0); // RSV
-        val vaccine2 = vaccineRepository.findAll().get(1);
+        val vaccine1 = new Vaccine();
+        vaccine1.setId(1L);
+        vaccine1.setName("Vaccine");
+        vaccine1.setGoals("Goals");
+        vaccine1.setDescription("Description");
+
+        val vaccine2 = new Vaccine();
+        vaccine2.setId(2L);
+        vaccine2.setName("Vaccine2");
+        vaccine2.setGoals("Goals");
+        vaccine2.setDescription("Description");
+
+        vaccineRepository.save(vaccine1);
+        vaccineRepository.save(vaccine2);
 
         service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now(), "comments");
         service.addToVaccines(patient.getEmail(), vaccine2, LocalDate.now(), "comments");

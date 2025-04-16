@@ -76,4 +76,18 @@ public class PatientService {
 
         return patientVaccines;
     }
+
+    public void removeVaccination(String email, PatientVaccine patientVaccine) {
+        val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
+
+        var patientVaccines = patient.getPatientVaccines();
+
+        if (patientVaccines == null) {
+            return;
+        }
+
+        patientVaccines.remove(patientVaccine);
+        patient.setPatientVaccines(patientVaccines);
+        save(patient);
+    }
 }

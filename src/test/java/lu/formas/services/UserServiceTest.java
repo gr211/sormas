@@ -4,8 +4,9 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.Application;
 import lu.formas.repository.PatientRepository;
+import lu.formas.repository.UserRepository;
 import lu.formas.repository.model.Login;
-import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -23,7 +24,10 @@ import java.util.Optional;
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = Application.class)
 @AutoConfigureMockMvc
-class PatientServiceTest {
+class UserServiceTest {
+
+    @MockitoBean
+    UserRepository userRepository;
 
     @MockitoBean
     PatientRepository patientRepository;
@@ -34,17 +38,17 @@ class PatientServiceTest {
     @Test
     @SneakyThrows
     public void test_Login_True_When_passwords_Match() {
-        val service = new PatientService(patientRepository, passwordEncoder);
+        val service = new UserService(userRepository, patientRepository, passwordEncoder);
 
         val password = passwordEncoder.encode("password");
 
-        val patient = new Patient();
-        patient.setEmail("email@email.com");
-        patient.setFirstName("firstName");
-        patient.setLastName("lastName");
-        patient.setPassword(password);
+        val user = new User();
+        user.setEmail("email@email.com");
+        user.setFirstName("firstName");
+        user.setLastName("lastName");
+        user.setPassword(password);
 
-        Mockito.when(patientRepository.findByEmail(Mockito.eq("email@email.com"))).thenReturn(Optional.of(patient));
+        Mockito.when(userRepository.findByEmail(Mockito.eq("email@email.com"))).thenReturn(Optional.of(user));
 
         val login = new Login();
         login.setPassword("password");
@@ -52,24 +56,24 @@ class PatientServiceTest {
         val result = service.login(login);
         assert result;
 
-        Mockito.verify(patientRepository).findByEmail(Mockito.anyString());
-        Mockito.verifyNoMoreInteractions(patientRepository);
+        Mockito.verify(userRepository).findByEmail(Mockito.anyString());
+        Mockito.verifyNoMoreInteractions(userRepository);
     }
 
     @Test
     @SneakyThrows
     public void test_Login_False_When_passwords_Dont_Match() {
-        val service = new PatientService(patientRepository, passwordEncoder);
+        val service = new UserService(userRepository, patientRepository, passwordEncoder);
 
         val password = passwordEncoder.encode("password");
 
-        val patient = new Patient();
-        patient.setEmail("email@email.com");
-        patient.setFirstName("firstName");
-        patient.setLastName("lastName");
-        patient.setPassword(password);
+        val user = new User();
+        user.setEmail("email@email.com");
+        user.setFirstName("firstName");
+        user.setLastName("lastName");
+        user.setPassword(password);
 
-        Mockito.when(patientRepository.findByEmail(Mockito.eq("email@email.com"))).thenReturn(Optional.of(patient));
+        Mockito.when(userRepository.findByEmail(Mockito.eq("email@email.com"))).thenReturn(Optional.of(user));
 
         val login = new Login();
         login.setPassword("different-password");
@@ -77,26 +81,28 @@ class PatientServiceTest {
         val result = service.login(login);
         assert !result;
 
-        Mockito.verify(patientRepository).findByEmail(Mockito.anyString());
-        Mockito.verifyNoMoreInteractions(patientRepository);
+        Mockito.verify(userRepository).findByEmail(Mockito.anyString());
+        Mockito.verifyNoMoreInteractions(userRepository);
     }
 
     @Test
     @SneakyThrows
     public void test_Delete_Patient_From_Database() {
-        val service = new PatientService(patientRepository, passwordEncoder);
+        val service = new UserService(userRepository, patientRepository, passwordEncoder);
 
-        val patient = new Patient();
-        patient.setEmail("email@email.com");
-        patient.setFirstName("firstName");
-        patient.setLastName("lastName");
-        patient.setPassword("password");
+        val user = new User();
+        user.setEmail("email@email.com");
+        user.setFirstName("firstName");
+        user.setLastName("lastName");
+        user.setPassword("password");
 
+        Mockito.doNothing().when(userRepository).deleteUserByEmail(Mockito.anyString());
         Mockito.doNothing().when(patientRepository).deletePatientByEmail(Mockito.anyString());
 
-        service.delete(patient);
+        service.delete(user);
 
+        Mockito.verify(userRepository).deleteUserByEmail(Mockito.eq("email@email.com"));
         Mockito.verify(patientRepository).deletePatientByEmail(Mockito.eq("email@email.com"));
-        Mockito.verifyNoMoreInteractions(patientRepository);
+        Mockito.verifyNoMoreInteractions(userRepository);
     }
 }
