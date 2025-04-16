@@ -11,11 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 @Transactional
@@ -68,7 +64,7 @@ public class PatientService {
         save(patient);
     }
 
-    public Set<PatientVaccine> getVaccinesEntries(String email) {
+    public List<PatientVaccine> getVaccinesEntries(String email) {
         val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
         var patientVaccines = patient.getPatientVaccines();
 
@@ -76,7 +72,9 @@ public class PatientService {
             patientVaccines = new HashSet<>();
         }
 
-        return patientVaccines;
+        ArrayList<PatientVaccine> patientVaccines1 = new ArrayList<>(patientVaccines);
+        patientVaccines1.sort(Comparator.comparing(PatientVaccine::getVaccineDate));
+        return patientVaccines1;
     }
 
     public void removeVaccination(String email, PatientVaccine patientVaccine) {

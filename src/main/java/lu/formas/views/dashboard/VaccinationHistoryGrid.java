@@ -94,7 +94,6 @@ public class VaccinationHistoryGrid extends VerticalLayout {
         });
 
         grid.setAllRowsVisible(true);
-
     }
 
     void refresh() {

@@ -194,4 +194,38 @@ class PatientServiceITTest {
         val vaccines2 = new ArrayList<>(patient3.getPatientVaccines());
         Assertions.assertEquals(true, vaccines2.isEmpty());
     }
+
+    @Test
+    @SneakyThrows
+    public void test_Vaccine_Entries_Should_Be_Sorted() {
+        val service = new PatientService(patientRepository);
+
+        val patient = new Patient();
+        patient.setEmail("abc@gmail.com");
+
+        service.save(patient);
+
+        val vaccine1 = new Vaccine();
+        vaccine1.setId(1L);
+        vaccine1.setName("Vaccine");
+        vaccine1.setGoals("Goals");
+        vaccine1.setDescription("Description");
+
+        val vaccine2 = new Vaccine();
+        vaccine2.setId(2L);
+        vaccine2.setName("Vaccine2");
+        vaccine2.setGoals("Goals");
+        vaccine2.setDescription("Description");
+
+        vaccineRepository.save(vaccine1);
+        vaccineRepository.save(vaccine2);
+
+        service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now(), "comments");
+        service.addToVaccines(patient.getEmail(), vaccine2, LocalDate.now().minusYears(1), "comments");
+
+        val vaccines = service.getVaccinesEntries(patient.getEmail());
+        Assertions.assertEquals(vaccine2, vaccines.get(0).getVaccine());
+        Assertions.assertEquals(vaccine1, vaccines.get(1).getVaccine());
+
+    }
 }
