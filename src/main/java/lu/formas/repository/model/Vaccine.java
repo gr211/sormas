@@ -8,7 +8,7 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "vaccins")
+@Table(name = "vaccines")
 @NoArgsConstructor
 @Getter
 @Setter

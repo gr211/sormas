@@ -16,8 +16,6 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import lombok.val;
-import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
 import lu.formas.views.dashboard.DashboardView;
 import lu.formas.views.profile.ProfileView;
 import lu.formas.views.security.LogoutView;
@@ -29,15 +27,10 @@ public class MainView extends AppLayout implements BeforeEnterObserver {
 
     transient AuthenticationContext authContext;
 
-    private final SecurityService securityService;
-    private final PatientService personService;
-
     Tabs menu;
 
-    public MainView(PatientService personService, AuthenticationContext authContext, SecurityService securityService) {
+    public MainView(AuthenticationContext authContext) {
         this.authContext = authContext;
-        this.securityService = securityService;
-        this.personService = personService;
 
         createHeader();
     }

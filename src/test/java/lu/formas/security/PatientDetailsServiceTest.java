@@ -27,7 +27,7 @@ class PatientDetailsServiceTest {
     PatientRepository patientRepository;
 
     @Autowired
-    PatientDetailsService patientDetailsService;
+    SormasUserDetailsService patientDetailsService;
 
 
     @Test

@@ -1,21 +1,20 @@
 package lu.formas.security;
 
 import lombok.val;
-import lu.formas.repository.PatientRepository;
+import lu.formas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collections;
 import java.util.Objects;
 
-public class PatientDetailsService implements UserDetailsService {
+public class SormasUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Autowired
-    private PatientRepository patientRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private SecurityService securityService;
@@ -27,13 +26,13 @@ public class PatientDetailsService implements UserDetailsService {
         if (Objects.nonNull(authenticatedUser)) {
             return authenticatedUser;
         } else {
-            val patient = patientRepository.findByEmail(username);
+            val patient = userRepository.findByEmail(username);
 
             if (patient.isPresent()) {
                 return new User(patient.get().getEmail(), patient.get().getPassword(), Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
             }
         }
 
-        throw new UsernameNotFoundException("Patient not found");
+        throw new UsernameNotFoundException("User not found");
     }
 }

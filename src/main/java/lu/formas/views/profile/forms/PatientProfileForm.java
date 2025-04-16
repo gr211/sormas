@@ -10,9 +10,9 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.SneakyThrows;
 import lombok.val;
-import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.User;
 import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
+import lu.formas.services.UserService;
 
 public class PatientProfileForm extends FormLayout {
     private TextField firstName = new TextField("First name");
@@ -21,17 +21,17 @@ public class PatientProfileForm extends FormLayout {
 
     private Button remove = new Button("Remove account");
 
-    private Binder<Patient> binder = new BeanValidationBinder<>(Patient.class);
-    private PatientService patientService;
+    private Binder<User> binder = new BeanValidationBinder<>(User.class);
+    private UserService userService;
     private SecurityService securityService;
 
     private final ConfirmDelete confirmDelete;
 
-    public PatientProfileForm(PatientService patientService, SecurityService securityService) {
-        fillPatientInfo(patientService, securityService);
+    public PatientProfileForm(UserService userService, SecurityService securityService) {
+        fillUserInfo(userService, securityService);
         binder.bindInstanceFields(this);
 
-        this.patientService = patientService;
+        this.userService = userService;
         this.securityService = securityService;
         this.confirmDelete = modal();
 
@@ -52,7 +52,7 @@ public class PatientProfileForm extends FormLayout {
     }
 
     private ConfirmDelete modal() {
-        return new ConfirmDelete(binder.getBean(), patientService, securityService);
+        return new ConfirmDelete(binder.getBean(), userService, securityService);
     }
 
     @SneakyThrows
@@ -60,10 +60,10 @@ public class PatientProfileForm extends FormLayout {
         confirmDelete.open();
     }
 
-    public void fillPatientInfo(PatientService patientService, SecurityService securityService) {
+    public void fillUserInfo(UserService userService, SecurityService securityService) {
         val userDetails = securityService.getAuthenticatedUser();
 
-        patientService.get(userDetails).ifPresent(p -> {
+        userService.get(userDetails).ifPresent(p -> {
             p.setPassword(null);
             binder.setBean(p);
 

@@ -2,14 +2,12 @@ package lu.formas.views.security;
 
 
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
-import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
+import lu.formas.services.UserService;
 import lu.formas.views.MainView;
 import lu.formas.views.common.SormasLogo;
 import lu.formas.views.security.forms.PatientRegistrationForm;
@@ -21,8 +19,8 @@ public class RegistrationView extends VerticalLayout {
 
     private final PatientRegistrationForm form;
 
-    public RegistrationView(PatientService patientService, SecurityService securityService) {
-        form = new PatientRegistrationForm(patientService, securityService);
+    public RegistrationView(UserService userService) {
+        form = new PatientRegistrationForm(userService);
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);

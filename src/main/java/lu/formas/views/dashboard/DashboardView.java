@@ -28,6 +28,9 @@ public class DashboardView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
 
-        add(new VaccinationHistoryView(patientService, vaccineService, securityService));
+        add(
+                new VaccinationHistoryView(patientService, vaccineService, securityService),
+                new VaccinationHistoryGrid(patientService, vaccineService, securityService)
+        );
     }
 }
