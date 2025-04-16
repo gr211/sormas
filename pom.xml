@@ -61,6 +61,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.38</version>
         </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.10.6</version>
+        </dependency>
 
         <!--TEST-->
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
