@@ -11,7 +11,6 @@ import lombok.val;
 import lu.formas.repository.model.PatientVaccine;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
-import lu.formas.services.VaccineService;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -21,7 +20,7 @@ public class VaccinationHistoryGrid extends VerticalLayout {
     Grid<PatientVaccine> grid = new Grid<>(PatientVaccine.class, false);
     TextField searchField = new TextField();
 
-    public VaccinationHistoryGrid(PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
+    public VaccinationHistoryGrid(PatientService patientService, SecurityService securityService) {
         setClassName("vaccination-history-grid");
         setJustifyContentMode(JustifyContentMode.START);
         setAlignItems(Alignment.START);
@@ -46,6 +45,7 @@ public class VaccinationHistoryGrid extends VerticalLayout {
             val dataView = grid.setItems(patientService.getVaccinesEntries(authenticatedUser.getUsername()));
 
             searchField.addValueChangeListener(e -> dataView.refreshAll());
+
 
             dataView.addFilter(patientVaccine -> {
                 val searchTerm = searchField.getValue().trim();

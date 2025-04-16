@@ -30,7 +30,7 @@ public class DashboardView extends VerticalLayout {
 
         add(
                 new VaccinationHistoryView(patientService, vaccineService, securityService),
-                new VaccinationHistoryGrid(patientService, vaccineService, securityService)
+                new VaccinationHistoryGrid(patientService, securityService)
         );
     }
 }
