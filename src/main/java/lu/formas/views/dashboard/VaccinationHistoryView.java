@@ -12,14 +12,14 @@ public class VaccinationHistoryView extends VerticalLayout {
 
     private final AddVaccineModal addVaccineModal;
 
-    public VaccinationHistoryView(PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
+    public VaccinationHistoryView(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
         setClassName("vaccination-history-view");
         setJustifyContentMode(JustifyContentMode.START);
         setAlignItems(Alignment.START);
 
-        addVaccineModal = new AddVaccineModal(patientService, vaccineService, securityService);
+        addVaccineModal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService);
 
-        val title = new H1("Vaccination Card");
+        val title = new H1("Vaccination History");
 
         val addVaccine = new Button("Add vaccine", event -> {
             addVaccineModal.open();

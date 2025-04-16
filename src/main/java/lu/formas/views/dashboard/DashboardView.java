@@ -5,6 +5,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.RolesAllowed;
+import lombok.val;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
@@ -28,9 +29,11 @@ public class DashboardView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
 
+        val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService);
+        val vaccinationHistoryView = new VaccinationHistoryView(vaccinationHistoryGrid, patientService, vaccineService, securityService);
         add(
-                new VaccinationHistoryView(patientService, vaccineService, securityService),
-                new VaccinationHistoryGrid(patientService, securityService)
+                vaccinationHistoryView,
+                vaccinationHistoryGrid
         );
     }
 }

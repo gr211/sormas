@@ -80,3 +80,9 @@ table.tableblock {
     padding-bottom: var(--lumo-space-m);
     text-align: center;
 }
+
+.vaccination-history-search-field  {
+    width: 15%;
+    min-width: 100px;
+    margin-bottom: var(--lumo-space-m);
+}

@@ -39,7 +39,7 @@ public class AddVaccineModal extends Dialog {
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
 
-    public AddVaccineModal(PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
+    public AddVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
         this.vaccineService = vaccineService;
         this.securityService = securityService;
 
@@ -88,6 +88,8 @@ public class AddVaccineModal extends Dialog {
 
                 select.setInvalid(false);
                 datePicker.setInvalid(false);
+
+                vaccinationHistoryGrid.refresh();
 
                 close();
             });

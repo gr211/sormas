@@ -52,7 +52,9 @@ class AddVaccineModalTest {
         val vaccineByMaturity = new VaccinesByMaturity(Arrays.asList(vaccine1, vaccine2));
         Mockito.when(vaccineService.groupedByMaturity()).thenReturn(vaccineByMaturity);
 
-        val modal = new AddVaccineModal(patientService, vaccineService, securityService);
+        val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService);
+
+        val modal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService);
 
         val vaccines = modal.getSelect().getGenericDataView().getItems().collect(Collectors.toList());
 
