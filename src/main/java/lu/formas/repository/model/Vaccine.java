@@ -16,7 +16,6 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id"})
 public class Vaccine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 256)
