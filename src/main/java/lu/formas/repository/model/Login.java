@@ -11,7 +11,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Login {
     @Email(message = "Email address is not valid")
     @NotEmpty(message = "Email address is required")

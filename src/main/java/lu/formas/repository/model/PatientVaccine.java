@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"patient", "vaccine"})
 @EqualsAndHashCode(of = {"patient", "vaccine"})
 public class PatientVaccine {
     @Id

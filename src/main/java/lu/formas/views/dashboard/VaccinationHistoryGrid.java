@@ -61,7 +61,6 @@ public class VaccinationHistoryGrid extends VerticalLayout {
             val icon = VaadinIcon.FILE_REMOVE.create();
             icon.setTooltipText("Remove entry");
             icon.addSingleClickListener(event -> {
-                System.out.println(patientVaccine);
                 val modal = new ConfirmDeleteVaccineModal(this, patientService, patientVaccine, email);
                 modal.open();
             });

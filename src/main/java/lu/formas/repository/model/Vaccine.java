@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"patientVaccines"})
 @EqualsAndHashCode(of = {"id"})
 public class Vaccine {
     @Id

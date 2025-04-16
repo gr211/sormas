@@ -17,6 +17,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.Getter;
 import lombok.val;
+import lu.formas.repository.model.PatientVaccine;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
@@ -25,6 +26,7 @@ import lu.formas.views.profile.forms.AddVaccineBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @Transactional
@@ -35,6 +37,7 @@ public class AddVaccineModal extends Dialog {
 
     private final VaccineService vaccineService;
     private final SecurityService securityService;
+    private final PatientService patientService;
 
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
@@ -42,6 +45,9 @@ public class AddVaccineModal extends Dialog {
     public AddVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
         this.vaccineService = vaccineService;
         this.securityService = securityService;
+        this.patientService = patientService;
+
+        val authenticatedUser = securityService.getAuthenticatedUser();
 
         binder.forField(select).asRequired().bind(AddVaccineBean::getSelect, AddVaccineBean::setSelect);
         binder.forField(datePicker)
@@ -55,7 +61,7 @@ public class AddVaccineModal extends Dialog {
         setCloseOnOutsideClick(true);
         setClassName("vaccine-modal");
 
-        prepareForm();
+        prepareForm(authenticatedUser.getUsername());
 
         val modalLayout = new VerticalLayout();
         val message = new H2("Which vaccine would you like to add?");
@@ -108,15 +114,19 @@ public class AddVaccineModal extends Dialog {
         add(modalLayout);
     }
 
-    public void prepareForm() {
+    public void prepareForm(String email) {
         val vaccinesByMaturity = vaccineService.groupedByMaturity();
 
         select.setLabel("Select vaccine");
         select.setItems(vaccinesByMaturity.flatten());
         select.setPlaceholder("Select a vaccine");
 
+        val vaccineList = patientService.getVaccinesEntries(email).stream().map(PatientVaccine::getVaccine).collect(Collectors.toList());
+
         select.setItemEnabledProvider(
-                item -> !item.isPlaceholder());
+                item -> !item.isPlaceholder() && !vaccineList.contains(item.getVaccine())
+        );
+
 
         select.setWidthFull();
 
