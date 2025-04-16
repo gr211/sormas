@@ -7,6 +7,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import lombok.val;
@@ -15,6 +16,7 @@ import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Objects;
 
 public class VaccinationHistoryGrid extends VerticalLayout {
@@ -43,7 +45,7 @@ public class VaccinationHistoryGrid extends VerticalLayout {
             searchField.setValueChangeMode(ValueChangeMode.EAGER);
             searchField.setClearButtonVisible(true);
 
-            grid.addColumn(PatientVaccine::getVaccineDate).setHeader("Date").setSortable(true).setWidth("5%").setFlexGrow(0);
+            grid.addColumn(new LocalDateRenderer<>(PatientVaccine::getVaccineDate, () -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setWidth("5%").setFlexGrow(0).setHeader("Date");
             grid.addColumn(v -> v.getVaccine().getName()).setHeader("Vaccine").setSortable(true).setWidth("10%").setFlexGrow(0);
             grid.addColumn(commentsRenderer()).setHeader("Observations");
             grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
@@ -53,13 +55,13 @@ public class VaccinationHistoryGrid extends VerticalLayout {
             searchField.addValueChangeListener(e -> dataView.refreshAll());
 
             dataView.addFilter(patientVaccine -> {
-                val searchTerm = searchField.getValue().trim();
+                val searchTerm = searchField.getValue().trim().toLowerCase();
 
                 if (searchTerm.isEmpty()) return true;
 
                 boolean matchesName = patientVaccine.getVaccine().getName().toLowerCase().contains(searchTerm);
                 boolean matchesComments = patientVaccine.getComments().toLowerCase().contains(searchTerm);
-                boolean matchesDate = patientVaccine.getVaccineDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toLowerCase().contains(searchTerm);
+                boolean matchesDate = patientVaccine.getVaccineDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toLowerCase().contains(searchTerm);
 
                 return matchesName || matchesComments || matchesDate;
             });
