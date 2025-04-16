@@ -26,4 +26,5 @@ public class PatientVaccine {
     private Vaccine vaccine;
 
     private LocalDate vaccineDate;
+    private String comments;
 }

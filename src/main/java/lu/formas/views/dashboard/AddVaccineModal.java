@@ -10,6 +10,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -29,6 +31,7 @@ import java.util.Objects;
 public class AddVaccineModal extends Dialog {
     private Select<VaccinesByMaturityValue> select = new Select<>();
     private DatePicker datePicker = new DatePicker("Day of vaccination");
+    private TextArea comments = new TextArea("Comments", "Other relevant information");
 
     private final VaccineService vaccineService;
     private final SecurityService securityService;
@@ -45,12 +48,12 @@ public class AddVaccineModal extends Dialog {
                 .asRequired()
                 .bind(AddVaccineBean::getDatePicker, AddVaccineBean::setDatePicker);
 
+        binder.forField(comments)
+                .bind(AddVaccineBean::getComments, AddVaccineBean::setComments);
+
         setCloseOnEsc(true);
         setCloseOnOutsideClick(true);
         setClassName("vaccine-modal");
-
-        setMinHeight("500px");
-        setMinWidth("800px");
 
         prepareForm();
 
@@ -74,8 +77,9 @@ public class AddVaccineModal extends Dialog {
 
                     val vaccine = select.getValue().getVaccine();
                     val date = datePicker.getValue();
+                    val extraComments = comments.getValue();
 
-                    patientService.addToVaccines(email, vaccine, date);
+                    patientService.addToVaccines(email, vaccine, date, extraComments);
 
                 }
 
@@ -97,7 +101,7 @@ public class AddVaccineModal extends Dialog {
         buttonLayout.setWidthFull();
         buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
 
-        modalLayout.add(select, buttonLayout);
+        modalLayout.add(select, comments, buttonLayout);
 
         add(modalLayout);
     }
@@ -113,10 +117,11 @@ public class AddVaccineModal extends Dialog {
                 item -> !item.isPlaceholder());
 
         select.setWidthFull();
-        select.setHeight("80%");
 
         select.setRenderer(
                 new ComponentRenderer<>(vaccine -> new Div(vaccine.getVaccine().getName()))
         );
+
+        comments.addClassName("vaccine-comments");
     }
 }

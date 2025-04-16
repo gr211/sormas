@@ -56,6 +56,21 @@ table.tableblock {
     height: 200px;
 }
 
+.vaccine-modal {
+    min-width: 800px;
+    min-height: 500px;
+}
+
+.vaccination-history-view {
+    width: 98%;
+    height: 100%;
+}
+
+.vaccine-comments {
+    width: 100%;
+    height: 250px;
+}
+
 .error-message {
     color: var(--lumo-error-color);
     background-color: var(--lumo-error-color-10pct);

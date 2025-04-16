@@ -60,7 +60,7 @@ public class PatientService {
         return repository.findByEmail(email);
     }
 
-    public void addToVaccines(String email, Vaccine vaccine, LocalDate date) {
+    public void addToVaccines(String email, Vaccine vaccine, LocalDate date, String comments) {
         val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
         ;
 
@@ -68,6 +68,7 @@ public class PatientService {
         patientVaccine.setPatient(patient);
         patientVaccine.setVaccine(vaccine);
         patientVaccine.setVaccineDate(date);
+        patientVaccine.setComments(comments);
 
         var patientVaccines = patient.getPatientVaccines();
 

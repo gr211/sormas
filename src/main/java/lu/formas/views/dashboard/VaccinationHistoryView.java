@@ -13,7 +13,7 @@ public class VaccinationHistoryView extends VerticalLayout {
     private final AddVaccineModal addVaccineModal;
 
     public VaccinationHistoryView(PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
-        setSizeFull();
+        setClassName("vaccination-history-view");
         setJustifyContentMode(JustifyContentMode.START);
         setAlignItems(Alignment.START);
 

@@ -83,7 +83,7 @@ class PatientServiceITTest {
         val vaccine2 = vaccineRepository.findAll().get(2); // RSV
 
         {
-            service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now());
+            service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now(), "comments");
 
             entityManager.flush();
             entityManager.clear();
@@ -93,7 +93,7 @@ class PatientServiceITTest {
         }
 
         {
-            service.addToVaccines(patient.getEmail(), vaccine2, LocalDate.now().minusYears(1));
+            service.addToVaccines(patient.getEmail(), vaccine2, LocalDate.now().minusYears(1), "comments");
 
             entityManager.flush();
             entityManager.clear();
@@ -121,9 +121,9 @@ class PatientServiceITTest {
         val vaccine1 = vaccineRepository.findAll().get(0); // RSV
         val vaccine2 = vaccineRepository.findAll().get(1);
 
-        service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now());
-        service.addToVaccines(patient.getEmail(), vaccine2, LocalDate.now());
-        service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now());
+        service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now(), "comments");
+        service.addToVaccines(patient.getEmail(), vaccine2, LocalDate.now(), "comments");
+        service.addToVaccines(patient.getEmail(), vaccine1, LocalDate.now(), "comments");
 
         entityManager.flush();
         entityManager.clear();

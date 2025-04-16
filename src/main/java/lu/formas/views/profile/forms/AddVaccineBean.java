@@ -23,4 +23,7 @@ public class AddVaccineBean {
     @NotEmpty(message = "Password is required")
     @Size(message = "Maximum size is 128", max = 128)
     private VaccinesByMaturityValue select;
+
+    @Size(message = "Maximum size is 512", max = 512)
+    private String comments;
 }
