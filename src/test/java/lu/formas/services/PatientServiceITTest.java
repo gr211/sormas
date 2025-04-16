@@ -154,4 +154,44 @@ class PatientServiceITTest {
         val vaccines = new ArrayList<>(patient2.getPatientVaccines());
         Assertions.assertEquals(2, vaccines.size());
     }
+
+    @Test
+    @SneakyThrows
+    public void test_Remove_Vaccination() {
+        val service = new PatientService(patientRepository);
+
+        val patient = new Patient();
+        patient.setEmail("abc@gmail.com");
+
+        service.save(patient);
+
+        val vaccine = new Vaccine();
+        vaccine.setId(1L);
+        vaccine.setName("Vaccine");
+        vaccine.setGoals("Goals");
+        vaccine.setDescription("Description");
+
+        vaccineRepository.save(vaccine);
+
+        service.addToVaccines(patient.getEmail(), vaccine, LocalDate.now(), "comments");
+
+        entityManager.flush();
+        entityManager.clear();
+
+        val patient2 = service.byEMail("abc@gmail.com").get();
+        val vaccines = new ArrayList<>(patient2.getPatientVaccines());
+        Assertions.assertEquals(1, vaccines.size());
+
+        entityManager.flush();
+        entityManager.clear();
+
+        service.removeVaccination("abc@gmail.com", patient2.getPatientVaccines().iterator().next());
+
+        entityManager.flush();
+        entityManager.clear();
+
+        val patient3 = service.byEMail("abc@gmail.com").get();
+        val vaccines2 = new ArrayList<>(patient3.getPatientVaccines());
+        Assertions.assertEquals(true, vaccines2.isEmpty());
+    }
 }
