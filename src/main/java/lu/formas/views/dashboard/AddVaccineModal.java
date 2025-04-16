@@ -15,17 +15,13 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.Getter;
 import lombok.val;
-import lu.formas.repository.model.PatientVaccine;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
 import lu.formas.services.model.VaccinesByMaturityValue;
 import lu.formas.views.profile.forms.AddVaccineBean;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Objects;
 
 @Getter
@@ -75,19 +71,11 @@ public class AddVaccineModal extends Dialog {
                 val authenticatedUser = securityService.getAuthenticatedUser();
                 if (Objects.nonNull(authenticatedUser)) {
                     val email = authenticatedUser.getUsername();
-                    val patient = patientService.byEMail(email).get();
+
                     val vaccine = select.getValue().getVaccine();
                     val date = datePicker.getValue();
 
-                    val patientVaccine = new PatientVaccine();
-                    patientVaccine.setPatient(patient);
-                    patientVaccine.setVaccine(vaccine);
-                    patientVaccine.setVaccineDate(date);
-
-                    val l = patient.getPatientVaccines();
-                    l.add(patientVaccine);
-                    patient.setPatientVaccines(l);
-                    patientService.save(patient);
+                    patientService.addToVaccines(email, vaccine, date);
                 }
                 close();
             });

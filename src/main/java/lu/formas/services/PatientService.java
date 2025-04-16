@@ -1,14 +1,19 @@
 package lu.formas.services;
 
 import lombok.val;
+import lombok.var;
 import lu.formas.repository.PatientRepository;
 import lu.formas.repository.model.Login;
 import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.PatientVaccine;
+import lu.formas.repository.model.Vaccine;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -53,5 +58,27 @@ public class PatientService {
 
     public Optional<Patient> byEMail(String email) {
         return repository.findByEmail(email);
+    }
+
+    public void addToVaccines(String email, Vaccine vaccine, LocalDate date) {
+        val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
+        ;
+
+        val patientVaccine = new PatientVaccine();
+        patientVaccine.setPatient(patient);
+        patientVaccine.setVaccine(vaccine);
+        patientVaccine.setVaccineDate(date);
+
+        var patientVaccines = patient.getPatientVaccines();
+
+        if (patientVaccines == null) {
+            patientVaccines = new HashSet<>();
+        }
+
+        patientVaccines.remove(patientVaccine); // only 1 vaccine of a kind per patient. Remove any previously set
+        patientVaccines.add(patientVaccine);
+
+        patient.setPatientVaccines(patientVaccines);
+        save(patient);
     }
 }

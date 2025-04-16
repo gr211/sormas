@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString(exclude = {"patient", "vaccine"})
+@EqualsAndHashCode(of = {"patient", "vaccine"})
 public class PatientVaccine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
