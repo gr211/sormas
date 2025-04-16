@@ -77,8 +77,8 @@ public class AddVaccineModal extends Dialog {
 
                 binder.writeBeanIfValid(bean);
 
-                val authenticatedUser = securityService.getAuthenticatedUser();
-                if (Objects.nonNull(authenticatedUser)) {
+                if(binder.isValid()) {
+                    val authenticatedUser = securityService.getAuthenticatedUser();
                     val email = authenticatedUser.getUsername();
 
                     val vaccine = select.getValue().getVaccine();
@@ -87,17 +87,16 @@ public class AddVaccineModal extends Dialog {
 
                     patientService.addToVaccines(email, vaccine, date, extraComments);
 
+                    select.clear();
+                    datePicker.clear();
+
+                    select.setInvalid(false);
+                    datePicker.setInvalid(false);
+
+                    vaccinationHistoryGrid.refresh();
+
+                    close();
                 }
-
-                select.clear();
-                datePicker.clear();
-
-                select.setInvalid(false);
-                datePicker.setInvalid(false);
-
-                vaccinationHistoryGrid.refresh();
-
-                close();
             });
             addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
