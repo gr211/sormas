@@ -78,6 +78,13 @@ public class AddVaccineModal extends Dialog {
                     patientService.addToVaccines(email, vaccine, date);
 
                 }
+
+                select.clear();
+                datePicker.clear();
+
+                select.setInvalid(false);
+                datePicker.setInvalid(false);
+
                 close();
             });
             addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
