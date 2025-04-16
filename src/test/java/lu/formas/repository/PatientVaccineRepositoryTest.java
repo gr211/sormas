@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import lombok.val;
 import lu.formas.repository.model.Patient;
 import lu.formas.repository.model.PatientVaccine;
+import lu.formas.repository.model.Vaccine;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,17 @@ public class PatientVaccineRepositoryTest {
 
 
     @Test
-    void creating_abc() {
+    void associating_vaccines_to_patients() {
         val patient = new Patient();
         patient.setEmail("abc@gmail.com");
-        patient.setPassword("123456");
-        patient.setFirstName("abc");
-        patient.setLastName("def");
 
-        val vaccine = vaccineRepository.findAll().get(0);
+        val vaccine = new Vaccine();
+        vaccine.setId(1L);
+        vaccine.setName("Vaccine");
+        vaccine.setGoals("Goals");
+        vaccine.setDescription("Description");
+
+        vaccineRepository.save(vaccine);
 
         val patientVaccine = new PatientVaccine();
         patientVaccine.setVaccine(vaccine);
@@ -51,10 +56,10 @@ public class PatientVaccineRepositoryTest {
         entityManager.clear();
 
         val patient2 = patientRepository.findByEmail("abc@gmail.com").get();
-        assert patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName().equals("RSV");
+        Assertions.assertEquals("Vaccine", patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName());
 
         val vaccine2 = vaccineRepository.findAll().get(0); // RSV
-        assert vaccine2.getPatientVaccines().stream().findFirst().get().getPatient().getFirstName().equals("abc");
+        Assertions.assertEquals("abc@gmail.com", vaccine2.getPatientVaccines().stream().findFirst().get().getPatient().getEmail());
     }
 
 }
