@@ -1,13 +1,14 @@
 package lu.formas.views.dashboard;
 
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import lombok.Getter;
 import lombok.val;
 import lu.formas.repository.model.PatientVaccine;
 import lu.formas.security.SecurityService;
@@ -44,7 +45,8 @@ public class VaccinationHistoryGrid extends VerticalLayout {
 
             grid.addColumn(PatientVaccine::getVaccineDate).setHeader("Date").setSortable(true).setWidth("5%").setFlexGrow(0);
             grid.addColumn(v -> v.getVaccine().getName()).setHeader("Vaccine").setSortable(true).setWidth("10%").setFlexGrow(0);
-            grid.addColumn(PatientVaccine::getComments).setHeader("Observations");
+            grid.addColumn(commentsRenderer()).setHeader("Observations");
+            grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 
             val dataView = grid.setItems(patientService.getVaccinesEntries(authenticatedUser.getUsername()));
 
@@ -72,5 +74,11 @@ public class VaccinationHistoryGrid extends VerticalLayout {
     void refresh() {
         val authenticatedUser = securityService.getAuthenticatedUser();
         grid.setItems(patientService.getVaccinesEntries(authenticatedUser.getUsername()));
+    }
+
+    private static Renderer<PatientVaccine> commentsRenderer() {
+        return LitRenderer.<PatientVaccine>of(
+                        "<i>${item.comments}</i>")
+                .withProperty("comments", PatientVaccine::getComments);
     }
 }
