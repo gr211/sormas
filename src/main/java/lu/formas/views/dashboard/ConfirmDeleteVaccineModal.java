@@ -20,11 +20,13 @@ public class ConfirmDeleteVaccineModal extends Dialog {
 
     private PatientService patientService;
     private PatientVaccine patientVaccine;
+    private VaccinationHistoryGrid vaccinationHistoryGrid;
     private String email;
 
-    public ConfirmDeleteVaccineModal(PatientService patientService, PatientVaccine patientVaccine, String email) {
+    public ConfirmDeleteVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, PatientVaccine patientVaccine, String email) {
         this.patientService = patientService;
         this.patientVaccine = patientVaccine;
+        this.vaccinationHistoryGrid = vaccinationHistoryGrid;
         this.email = email;
 
         setCloseOnEsc(true);
@@ -44,6 +46,7 @@ public class ConfirmDeleteVaccineModal extends Dialog {
 
         confirmButton = new Button("Confirm", event -> {
             patientService.removeVaccination(email, patientVaccine);
+            vaccinationHistoryGrid.refresh();
             close();
         });
 

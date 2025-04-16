@@ -25,6 +25,9 @@ class ConfirmDeleteVaccineModalTest {
     @MockitoBean
     PatientService patientService;
 
+    @MockitoBean
+    VaccinationHistoryGrid vaccinationHistoryGrid;
+
     @Test
     public void ensure_items_are_loaded_in_order() {
         val vaccine1 = new Vaccine() {{
@@ -36,7 +39,9 @@ class ConfirmDeleteVaccineModalTest {
             setVaccine(vaccine1);
         }};
 
-        val modal = new ConfirmDeleteVaccineModal(patientService, patientVaccine, "email");
+        Mockito.doNothing().when(vaccinationHistoryGrid).refresh();
+
+        val modal = new ConfirmDeleteVaccineModal(vaccinationHistoryGrid, patientService, patientVaccine, "email");
         modal.prepareModal();
 
         modal.getConfirmButton().click();
@@ -49,5 +54,7 @@ class ConfirmDeleteVaccineModalTest {
             assertEquals("Wrong patient vaccine", patientVaccine, e);
             return true;
         }));
+
+        Mockito.verify(vaccinationHistoryGrid).refresh();
     }
 }
