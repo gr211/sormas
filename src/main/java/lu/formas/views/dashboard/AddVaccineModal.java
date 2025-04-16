@@ -76,6 +76,7 @@ public class AddVaccineModal extends Dialog {
                     val date = datePicker.getValue();
 
                     patientService.addToVaccines(email, vaccine, date);
+
                 }
                 close();
             });

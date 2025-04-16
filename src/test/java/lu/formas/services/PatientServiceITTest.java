@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 @ExtendWith(SpringExtension.class)
@@ -55,7 +55,7 @@ class PatientServiceITTest {
         patientVaccine.setVaccine(vaccine);
         patientVaccine.setPatient(patient);
 
-        patient.setPatientVaccines(new HashSet<>(Arrays.asList(patientVaccine)));
+        patient.setPatientVaccines(new HashSet<>(Collections.singletonList(patientVaccine)));
 
         service.save(patient);
 
