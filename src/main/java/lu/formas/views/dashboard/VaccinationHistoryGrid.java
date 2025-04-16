@@ -1,5 +1,7 @@
 package lu.formas.views.dashboard;
 
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.icon.Icon;
@@ -57,18 +59,23 @@ public class VaccinationHistoryGrid extends VerticalLayout {
         grid.setSelectionMode(Grid.SelectionMode.NONE);
 
         grid.setClassName("vaccination-history-grid");
-        grid.addColumn(new ComponentRenderer<>(patientVaccine -> {
-            val icon = VaadinIcon.FILE_REMOVE.create();
-            icon.setTooltipText("Remove entry");
-            icon.addSingleClickListener(event -> {
-                val modal = new ConfirmDeleteVaccineModal(this, patientService, patientVaccine, email);
-                modal.open();
-            });
-            return icon;
-        })).setWidth("1%").setFlexGrow(0).setHeader("");
+
+        grid.addColumn(
+                new ComponentRenderer<>(Button::new, (button, patientVaccine) -> {
+                    button.addThemeVariants(ButtonVariant.LUMO_ICON,
+                            ButtonVariant.LUMO_ERROR,
+                            ButtonVariant.LUMO_TERTIARY);
+                    button.addClickListener(e -> {
+                        val modal = new ConfirmDeleteVaccineModal(this, patientService, patientVaccine, email);
+                        modal.open();
+                    });
+                    button.setIcon(new Icon(VaadinIcon.TRASH));
+                })).setFlexGrow(0).setHeader("Manage");
+
+
         grid.addColumn(new LocalDateRenderer<>(PatientVaccine::getVaccineDate, () -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setWidth("5%").setFlexGrow(0).setHeader("Date");
         grid.addColumn(v -> v.getVaccine().getName()).setHeader("Vaccine").setSortable(true).setWidth("10%").setFlexGrow(0);
-        grid.addColumn(commentsRenderer()).setHeader("Observations");
+        grid.addColumn(commentsRenderer()).setHeader("Observations").setWidth("80%");
 
         val dataView = grid.setItems(patientService.getVaccinesEntries(email));
 

@@ -39,6 +39,8 @@ public class AddVaccineModal extends Dialog {
     private final SecurityService securityService;
     private final PatientService patientService;
 
+    private VaccinationHistoryGrid vaccinationHistoryGrid;
+
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
 
@@ -46,6 +48,7 @@ public class AddVaccineModal extends Dialog {
         this.vaccineService = vaccineService;
         this.securityService = securityService;
         this.patientService = patientService;
+        this.vaccinationHistoryGrid = vaccinationHistoryGrid;
 
         val authenticatedUser = securityService.getAuthenticatedUser();
 
@@ -77,24 +80,8 @@ public class AddVaccineModal extends Dialog {
 
                 binder.writeBeanIfValid(bean);
 
-                if(binder.isValid()) {
-                    val authenticatedUser = securityService.getAuthenticatedUser();
-                    val email = authenticatedUser.getUsername();
-
-                    val vaccine = select.getValue().getVaccine();
-                    val date = datePicker.getValue();
-                    val extraComments = comments.getValue();
-
-                    patientService.addToVaccines(email, vaccine, date, extraComments);
-
-                    select.clear();
-                    datePicker.clear();
-
-                    select.setInvalid(false);
-                    datePicker.setInvalid(false);
-
-                    vaccinationHistoryGrid.refresh();
-
+                if (binder.isValid()) {
+                    submit();
                     close();
                 }
             });
@@ -111,6 +98,25 @@ public class AddVaccineModal extends Dialog {
         modalLayout.add(select, comments, buttonLayout);
 
         add(modalLayout);
+    }
+
+    public void submit() {
+        val authenticatedUser = securityService.getAuthenticatedUser();
+        val email = authenticatedUser.getUsername();
+
+        val vaccine = select.getValue().getVaccine();
+        val date = datePicker.getValue();
+        val extraComments = comments.getValue();
+
+        patientService.addToVaccines(email, vaccine, date, extraComments);
+
+        select.clear();
+        datePicker.clear();
+
+        select.setInvalid(false);
+        datePicker.setInvalid(false);
+
+        vaccinationHistoryGrid.refresh();
     }
 
     public void prepareForm(String email) {
