@@ -12,26 +12,34 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.repository.model.User;
 import lu.formas.security.SecurityService;
+import lu.formas.services.PatientService;
 import lu.formas.services.UserService;
+
+import java.time.LocalDate;
 
 public class PatientProfileForm extends FormLayout {
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private TextField email = new TextField("Email");
+    private TextField dob = new TextField("Date of birth");
 
     private Button remove = new Button("Remove account");
 
     private Binder<User> binder = new BeanValidationBinder<>(User.class);
     private UserService userService;
+    private PatientService patientService;
     private SecurityService securityService;
 
     private final ConfirmDelete confirmDelete;
 
-    public PatientProfileForm(UserService userService, SecurityService securityService) {
-        fillUserInfo(userService, securityService);
+    public PatientProfileForm(UserService userService, SecurityService securityService, PatientService patientService) {
+        fillUserInfo(userService, securityService, patientService);
+
+        binder.forField(dob).bind(user -> user.getDob().toString(), (user, dob) -> user.setDob(LocalDate.parse(dob)));
         binder.bindInstanceFields(this);
 
         this.userService = userService;
+        this.patientService = patientService;
         this.securityService = securityService;
         this.confirmDelete = modal();
 
@@ -41,12 +49,13 @@ public class PatientProfileForm extends FormLayout {
         firstName.setRequired(false);
         lastName.setRequired(false);
         email.setRequired(false);
+        dob.setRequired(false);
 
         val civil = new HorizontalLayout(firstName, lastName);
         firstName.setSizeFull();
         lastName.setSizeFull();
 
-        add(civil, email, buttons);
+        add(civil, dob, email, buttons);
 
         remove.addClickListener(this::openModal);
     }
@@ -60,12 +69,16 @@ public class PatientProfileForm extends FormLayout {
         confirmDelete.open();
     }
 
-    public void fillUserInfo(UserService userService, SecurityService securityService) {
+    public void fillUserInfo(UserService userService, SecurityService securityService, PatientService patientService) {
         val userDetails = securityService.getAuthenticatedUser();
 
-        userService.get(userDetails).ifPresent(p -> {
-            p.setPassword(null);
-            binder.setBean(p);
+        userService.get(userDetails).ifPresent(user -> {
+            val patient = patientService.get(userDetails);
+
+            patient.ifPresent(p -> user.setDob(p.getDob()));
+
+            user.setPassword(null);
+            binder.setBean(user);
 
             email.setRequired(false);
             email.setReadOnly(true);
@@ -75,6 +88,9 @@ public class PatientProfileForm extends FormLayout {
 
             lastName.setRequired(false);
             lastName.setReadOnly(true);
+
+            dob.setRequired(false);
+            dob.setReadOnly(true);
         });
     }
 }

@@ -34,6 +34,7 @@ public class UserService {
 
         val patient = new Patient();
         patient.setEmail(user.getEmail());
+        patient.setDob(user.getDob());
         patientRepository.save(patient);
     }
 

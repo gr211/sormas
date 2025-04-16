@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -34,4 +36,7 @@ public class User {
     @NotEmpty
     @Size(message = "Maximum size is 128", max = 128)
     private String password;
+
+    @Transient
+    private LocalDate dob;
 }

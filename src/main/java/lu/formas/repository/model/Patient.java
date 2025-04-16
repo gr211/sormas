@@ -3,6 +3,7 @@ package lu.formas.repository.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,8 @@ public class Patient {
     private Long id;
 
     private String email;
+
+    private LocalDate dob;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<PatientVaccine> patientVaccines;

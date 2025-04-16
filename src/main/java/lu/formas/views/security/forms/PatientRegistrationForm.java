@@ -4,6 +4,7 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -17,6 +18,7 @@ import lombok.val;
 import lu.formas.repository.model.User;
 import lu.formas.services.UserService;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -25,6 +27,7 @@ public class PatientRegistrationForm extends FormLayout {
     private TextField lastName = new TextField("Last name");
     private TextField email = new TextField("Email");
     private PasswordField password = new PasswordField("Password");
+    private DatePicker dob = new DatePicker("Date of birth");
 
     private Button save = new Button("Save");
     private Button close = new Button("Cancel");
@@ -42,7 +45,7 @@ public class PatientRegistrationForm extends FormLayout {
         firstName.setSizeFull();
         lastName.setSizeFull();
 
-        add(civil, email, password, buttons);
+        add(civil, dob, email, password, buttons);
 
         setRequiredIndicatorVisible(firstName, lastName, email, password);
 
@@ -53,6 +56,7 @@ public class PatientRegistrationForm extends FormLayout {
 
         binder.forField(password).withValidator(this::passwordValidator).bind("password");
         binder.forField(email).withValidator(this::emailValidator).bind("email");
+        binder.forField(dob).withValidator(this::dobValidator).bind("dob");
     }
 
     private ValidationResult passwordValidator(String password, ValueContext ctx) {
@@ -64,6 +68,17 @@ public class PatientRegistrationForm extends FormLayout {
             return ValidationResult.error("Password should be at least 8 characters long");
         }
 
+        return ValidationResult.ok();
+    }
+
+    private ValidationResult dobValidator(LocalDate date, ValueContext ctx) {
+        if (Objects.isNull(date)) {
+            return ValidationResult.error("Date of birth is required");
+        }
+
+        if (LocalDate.now().plusDays(1).isBefore(date)) {
+            return ValidationResult.error("Date of birth should be in the past");
+        }
 
         return ValidationResult.ok();
     }

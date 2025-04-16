@@ -7,6 +7,7 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
 import lu.formas.security.SecurityService;
+import lu.formas.services.PatientService;
 import lu.formas.services.UserService;
 import lu.formas.views.MainView;
 import lu.formas.views.profile.forms.PatientProfileForm;
@@ -18,9 +19,9 @@ public class ProfileView extends VerticalLayout {
 
     private final PatientProfileForm form;
 
-    public ProfileView(UserService userService, SecurityService securityService) {
+    public ProfileView(UserService userService, SecurityService securityService, PatientService patientService) {
 
-        form = new PatientProfileForm(userService, securityService);
+        form = new PatientProfileForm(userService, securityService, patientService);
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);
