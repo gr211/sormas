@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.Application;
 import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.PatientVaccine;
 import lu.formas.repository.model.Vaccine;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -67,15 +69,24 @@ class NotificationServiceTest {
         nextOne2.setName("Vaccine");
         nextOne2.setMaturityMonth(1);
 
+        // Will be ignored - patient already vaccinated
+        val nextOne3 = new Vaccine();
+        nextOne3.setId(111L);
+        nextOne3.setName("Vaccine");
+        nextOne3.setMaturityMonth(1);
+
         val TooFarInTime = new Vaccine();
         TooFarInTime.setId(2L);
         TooFarInTime.setName("Vaccine");
         TooFarInTime.setMaturityMonth(5);
 
-        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(inThePath, nextOne1, TooFarInTime, nextOne2));
+        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(inThePath, nextOne1, TooFarInTime, nextOne2, nextOne3));
 
         val patient = new Patient();
         patient.setDob(LocalDate.now().minusDays(1).minusMonths(1));
+        patient.setPatientVaccines(Collections.singleton(new PatientVaccine() {{
+            setVaccine(nextOne3);
+        }}));
 
         val nextVaccines = service.nextVaccines(patient);
         assertEquals(Arrays.asList(nextOne1, nextOne2), nextVaccines);
