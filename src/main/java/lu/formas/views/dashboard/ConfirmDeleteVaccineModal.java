@@ -8,30 +8,44 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import lombok.Getter;
 import lombok.val;
 import lu.formas.repository.model.PatientVaccine;
-import lu.formas.repository.model.User;
-import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
 
-public class ConfirmDeleteVaccine extends Dialog {
-    public ConfirmDeleteVaccine(PatientService patientService, PatientVaccine patientVaccine) {
+@Getter
+public class ConfirmDeleteVaccineModal extends Dialog {
+
+    private Button confirmButton;
+
+    private PatientService patientService;
+    private PatientVaccine patientVaccine;
+    private String email;
+
+    public ConfirmDeleteVaccineModal(PatientService patientService, PatientVaccine patientVaccine, String email) {
+        this.patientService = patientService;
+        this.patientVaccine = patientVaccine;
+        this.email = email;
+
         setCloseOnEsc(true);
         setCloseOnOutsideClick(true);
         setClassName("confirm-delete");
 
+        prepareModal();
+    }
+
+    public void prepareModal() {
         val dialogLayout = new VerticalLayout();
         val message = new H2("Delete this entry?");
         val name = new Div(patientVaccine.getVaccine().getName());
         dialogLayout.add(message, name);
 
         val buttonsLayout = new HorizontalLayout();
-        val confirmButton = new Button("Confirm", event -> {
 
+        confirmButton = new Button("Confirm", event -> {
+            patientService.removeVaccination(email, patientVaccine);
             close();
         });
-        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         val cancelButton = new Button("Cancel", event -> {
             Notification.show("Operation cancelled");
@@ -39,6 +53,7 @@ public class ConfirmDeleteVaccine extends Dialog {
         });
         buttonsLayout.add(confirmButton, cancelButton);
 
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         dialogLayout.add(buttonsLayout);
         add(dialogLayout);
