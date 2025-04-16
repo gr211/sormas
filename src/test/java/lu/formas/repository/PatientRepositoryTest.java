@@ -31,9 +31,6 @@ public class PatientRepositoryTest {
     void creating_then_deleting_patients() {
         val patient = new Patient();
         patient.setEmail("john@example.com");
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setPassword("password");
 
         patientRepository.save(patient);
 
