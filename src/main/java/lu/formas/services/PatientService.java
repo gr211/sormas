@@ -4,10 +4,15 @@ import lombok.val;
 import lu.formas.repository.PatientRepository;
 import lu.formas.repository.model.Login;
 import lu.formas.repository.model.Patient;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
+@Transactional
 public class PatientService {
     private final PatientRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -34,7 +39,15 @@ public class PatientService {
         return false;
     }
 
+    public void delete(Patient patient) {
+        repository.deletePatientByEmail(patient.getEmail());
+    }
+
     public boolean exists(Patient patient) {
         return repository.findByEmail(patient.getEmail()).isPresent();
+    }
+
+    public Optional<Patient> get(UserDetails userDetails) {
+        return repository.findByEmail(userDetails.getUsername());
     }
 }

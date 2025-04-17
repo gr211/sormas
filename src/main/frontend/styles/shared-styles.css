@@ -9,4 +9,59 @@
     width: 217px;
 }
 
+.header {
+    width: 100%;
+}
 
+.header-logo {
+    margin-left: 10px;
+    height: 40px;
+}
+
+.header-title {
+    font-size: var(--lumo-font-size-l);
+    margin: 0;
+}
+
+.header-menu {
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.login-view, .register-view {
+    h1 {
+        margin-bottom: var(--lumo-space-m);
+    }
+
+    .logo {
+        height: 128px;
+        width: auto;
+        margin-bottom: var(--lumo-space-l);
+    }
+}
+
+vaadin-form-layout {
+    max-width: 500px;
+}
+
+table.tableblock {
+    width: 100%;
+    border: 0 solid var(--docs-divider-color-2);
+    border-spacing: 0;
+    margin: var(--docs-space-xl) 0;
+}
+
+.confirm-delete {
+    width: 400px;
+    height: 200px;
+}
+
+.error-message {
+    color: var(--lumo-error-color);
+    background-color: var(--lumo-error-color-10pct);
+    border-radius: var(--lumo-border-radius-m);
+    margin-bottom: var(--lumo-space-m);
+    padding-top: var(--lumo-space-m);
+    padding-bottom: var(--lumo-space-m);
+    text-align: center;
+}

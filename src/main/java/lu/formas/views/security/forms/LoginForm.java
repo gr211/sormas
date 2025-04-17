@@ -58,19 +58,10 @@ public class LoginForm extends FormLayout {
         login.addClickListener(this::login);
 
         configureErrorMessage();
-
-        setMaxWidth("500px");
     }
 
     private void configureErrorMessage() {
         errorMessage.setClassName("error-message");
-        errorMessage.getStyle().set("color", "var(--lumo-error-color)");
-        errorMessage.getStyle().set("background-color", "var(--lumo-error-color-10pct)");
-        errorMessage.getStyle().set("border-radius", "var(--lumo-border-radius-m)");
-        errorMessage.getStyle().set("margin-bottom", "var(--lumo-space-m)");
-        errorMessage.getStyle().set("padding-top", "var(--lumo-space-m)");
-        errorMessage.getStyle().set("padding-bottom", "var(--lumo-space-m)");
-        errorMessage.getStyle().set("text-align", "center");
         errorMessage.setVisible(false);
         errorMessage.setText("Invalid username or password");
     }

@@ -15,6 +15,7 @@ import com.vaadin.flow.data.binder.ValueContext;
 import lombok.SneakyThrows;
 import lombok.val;
 import lu.formas.repository.model.Patient;
+import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
 
 import java.util.Objects;
@@ -31,9 +32,11 @@ public class PatientRegistrationForm extends FormLayout {
 
     private Binder<Patient> binder = new BeanValidationBinder<>(Patient.class);
     private PatientService patientService;
+    private SecurityService securityService;
 
-    public PatientRegistrationForm(PatientService patientService) {
+    public PatientRegistrationForm(PatientService patientService, SecurityService securityService) {
         this.patientService = patientService;
+        this.securityService = securityService;
 
         val buttons = new HorizontalLayout(save, close);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -51,11 +54,8 @@ public class PatientRegistrationForm extends FormLayout {
         save.addClickListener(this::save);
         close.addClickListener(this::close);
 
-        setMaxWidth("500px");
-
         binder.forField(password).withValidator(this::passwordValidator).bind("password");
         binder.forField(email).withValidator(this::emailValidator).bind("email");
-
     }
 
     private ValidationResult passwordValidator(String password, ValueContext ctx) {

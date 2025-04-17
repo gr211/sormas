@@ -1,34 +1,27 @@
 package lu.formas.views.security;
 
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import lombok.val;
 import lu.formas.services.PatientService;
+import lu.formas.views.MainView;
+import lu.formas.views.common.SormasLogo;
 import lu.formas.views.security.forms.LoginForm;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import static com.vaadin.flow.component.Key.ENTER;
 
-@Route("login")
+@Route(value = "login", layout = MainView.class)
 @PageTitle("Login | Vaadin App")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-    public static String LOGIN_ROUTE = "login";
-
     public final LoginForm login;
 
-    private final PatientService patientService;
-    private final AuthenticationManager authenticationManager;
-
     public LoginView(PatientService patientService, AuthenticationManager authenticationManager) {
-        this.patientService = patientService;
-        this.authenticationManager = authenticationManager;
 
         login = new LoginForm(patientService, authenticationManager);
 
@@ -38,22 +31,15 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setHorizontalComponentAlignment(Alignment.CENTER, login);
 
-        // Configure form behavior for enterkey
         login.getPassword().addKeyPressListener(ENTER, e -> submitForm());
         login.getLogin().addClickListener(e -> submitForm());
 
-        // Create title
-        H1 title = new H1("User Management App");
-        title.getStyle().set("margin-bottom", "var(--lumo-space-m)");
+        val title = new H1("Vaccination Management App");
 
-        // Optional: Add a logo
-        Image logo = new Image("frontend/images/logo.png", "App Logo");
-        logo.setHeight("64px");
-        logo.setWidth("auto");
-        logo.getStyle().set("margin-bottom", "var(--lumo-space-l)");
+        val p = new Paragraph(new RouterLink("New ? Register here", RegistrationView.class));
 
         // Add components to layout
-        add(title, login);
+        add(new SormasLogo(), title, login, p);
     }
 
     private void submitForm() {

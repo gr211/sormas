@@ -1,6 +1,8 @@
 package lu.formas.repository;
 
 import jakarta.persistence.EntityManager;
+import lombok.val;
+import lu.formas.repository.model.Patient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,29 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class PatientRepositoryTest {
-    @Autowired private DataSource dataSource;
-    @Autowired private JdbcTemplate jdbcTemplate;
-    @Autowired private EntityManager entityManager;
-    @Autowired private PatientRepository userRepository;
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private EntityManager entityManager;
+    @Autowired
+    private PatientRepository patientRepository;
 
     @Test
-    void whenInjectInMemoryDataSource_thenReturnCorrectEmployeeCount() {
+    void creating_then_deleting_patients() {
+        val patient = new Patient();
+        patient.setEmail("john@example.com");
+        patient.setFirstName("John");
+        patient.setLastName("Doe");
+        patient.setPassword("password");
 
+        patientRepository.save(patient);
 
-        assertEquals("xxx", Optional.empty(), userRepository.findByEmail("dsqdsq"));
+        assertEquals("Existing patient was not found", Optional.of(patient), patientRepository.findByEmail("john@example.com"));
+
+        patientRepository.deletePatientByEmail("john@example.com");
+        assertEquals("Existing patient should not have been found", Optional.empty(), patientRepository.findByEmail("john@example.com"));
     }
 
 }

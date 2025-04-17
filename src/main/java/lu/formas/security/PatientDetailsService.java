@@ -10,20 +10,30 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class PatientDetailsService implements UserDetailsService {
 
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private SecurityService securityService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        val patient = patientRepository.findByEmail(username);
+        val authenticatedUser = securityService.getAuthenticatedUser();
 
-        if (!patient.isPresent()) {
-            throw new UsernameNotFoundException("Patient not found");
+        if (Objects.nonNull(authenticatedUser)) {
+            return authenticatedUser;
+        } else {
+            val patient = patientRepository.findByEmail(username);
+
+            if (patient.isPresent()) {
+                return new User(patient.get().getEmail(), patient.get().getPassword(), Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+            }
         }
 
-        return new User(patient.get().getEmail(), patient.get().getPassword(), Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+        throw new UsernameNotFoundException("Patient not found");
     }
 }
