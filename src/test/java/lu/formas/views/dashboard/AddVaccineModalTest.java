@@ -2,6 +2,7 @@ package lu.formas.views.dashboard;
 
 import lombok.val;
 import lu.formas.Application;
+import lu.formas.repository.model.Patient;
 import lu.formas.repository.model.Vaccine;
 import lu.formas.security.SecurityService;
 import lu.formas.services.NotificationService;
@@ -15,9 +16,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -42,9 +45,6 @@ class AddVaccineModalTest {
     @MockitoBean
     VaccineNotifications vaccineNotifications;
 
-    @MockitoBean
-    NotificationService notificationService;
-
     @Test
     public void ensure_items_are_loaded_in_order() {
         val vaccine1 = new Vaccine() {{
@@ -59,9 +59,16 @@ class AddVaccineModalTest {
         val vaccineByMaturity = new VaccinesByMaturity(Arrays.asList(vaccine1, vaccine2));
         Mockito.when(vaccineService.groupedByMaturity()).thenReturn(vaccineByMaturity);
 
-        val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService, notificationService);
+        val userDetails = Mockito.mock(UserDetails.class);
+        Mockito.when(securityService.getAuthenticatedUser()).thenReturn(userDetails);
+        Mockito.when(userDetails.getUsername()).thenReturn("username");
 
-        val modal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
+        val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService, vaccineNotifications);
+
+        val patient = new Patient();
+        patient.setDob(LocalDate.of(2025, 1, 1));
+
+        val modal = new AddVaccineModal(patient, vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
 
         val vaccines = modal.getSelect().getGenericDataView().getItems().collect(Collectors.toList());
 

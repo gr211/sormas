@@ -11,12 +11,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import lombok.Getter;
 import lombok.val;
+import lu.formas.repository.model.Patient;
 import lu.formas.repository.model.PatientVaccine;
 import lu.formas.security.SecurityService;
 import lu.formas.services.PatientService;
@@ -25,7 +25,6 @@ import lu.formas.services.model.VaccinesByMaturityValue;
 import lu.formas.views.profile.forms.AddVaccineBean;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -45,7 +44,7 @@ public class AddVaccineModal extends Dialog {
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
 
-    public AddVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService, VaccineNotifications vaccineNotifications) {
+    public AddVaccineModal(Patient patient, VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService, VaccineNotifications vaccineNotifications) {
         this.vaccineService = vaccineService;
         this.securityService = securityService;
         this.patientService = patientService;
@@ -132,7 +131,7 @@ public class AddVaccineModal extends Dialog {
         val vaccineList = patientService.getVaccinesEntries(email).stream().map(PatientVaccine::getVaccine).collect(Collectors.toList());
 
         select.setItemEnabledProvider(
-                item -> !item.isPlaceholder() && !vaccineList.contains(item.getVaccine())
+                byMaturityValue -> !byMaturityValue.isPlaceholder() && !vaccineList.contains(byMaturityValue.getVaccine())
         );
 
 

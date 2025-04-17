@@ -20,7 +20,7 @@ public class VaccinationHistoryView extends VerticalLayout {
         setAlignItems(Alignment.START);
 
 
-        addVaccineModal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
+        addVaccineModal = new AddVaccineModal(patient, vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
 
         val title = new H1( user.getFirstName() + " " + user.getLastName() + " - vaccination history");
 
