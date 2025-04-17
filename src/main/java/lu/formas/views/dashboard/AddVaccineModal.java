@@ -38,17 +38,19 @@ public class AddVaccineModal extends Dialog {
     private final VaccineService vaccineService;
     private final SecurityService securityService;
     private final PatientService patientService;
+    private final VaccineNotifications vaccineNotifications;
 
     private VaccinationHistoryGrid vaccinationHistoryGrid;
 
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
 
-    public AddVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService) {
+    public AddVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService, VaccineNotifications vaccineNotifications) {
         this.vaccineService = vaccineService;
         this.securityService = securityService;
         this.patientService = patientService;
         this.vaccinationHistoryGrid = vaccinationHistoryGrid;
+        this.vaccineNotifications = vaccineNotifications;
 
         val authenticatedUser = securityService.getAuthenticatedUser();
 
@@ -117,6 +119,7 @@ public class AddVaccineModal extends Dialog {
         datePicker.setInvalid(false);
 
         vaccinationHistoryGrid.refresh();
+        vaccineNotifications.refresh();
     }
 
     public void prepareForm(String email) {

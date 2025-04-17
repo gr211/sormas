@@ -1,5 +1,10 @@
 package lu.formas.services;
 
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import io.vavr.collection.Stream;
 import lombok.val;
 import lombok.var;
@@ -85,5 +90,15 @@ public class NotificationService {
                 alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine().equals(vaccine)));
 
         return overdueVaccines.collect(Collectors.toList());
+    }
+
+    public static HorizontalLayout showVaccine(Vaccine vaccine) {
+        Icon icon = VaadinIcon.DOCTOR.create();
+        Span label = new Span(vaccine.getName());
+
+        HorizontalLayout item = new HorizontalLayout(icon, label);
+        item.setAlignItems(FlexComponent.Alignment.START);
+        item.setSpacing(true);
+        return item;
     }
 }

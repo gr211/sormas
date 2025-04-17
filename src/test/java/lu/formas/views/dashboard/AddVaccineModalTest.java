@@ -38,6 +38,9 @@ class AddVaccineModalTest {
     @MockitoBean
     VaccineService vaccineService;
 
+    @MockitoBean
+    VaccineNotifications vaccineNotifications;
+
     @Test
     public void ensure_items_are_loaded_in_order() {
         val vaccine1 = new Vaccine() {{
@@ -54,7 +57,7 @@ class AddVaccineModalTest {
 
         val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService);
 
-        val modal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService);
+        val modal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
 
         val vaccines = modal.getSelect().getGenericDataView().getItems().collect(Collectors.toList());
 

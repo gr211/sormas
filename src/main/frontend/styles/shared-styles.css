@@ -86,3 +86,29 @@ table.tableblock {
     min-width: 100px;
     margin-bottom: var(--lumo-space-m);
 }
+
+.vaccine-notifications-div {
+    background-color: white;
+    /*background-color: #8B0000;*/
+    /*color: white;*/
+    /*color: white;*/
+    border-color: #8B0000;
+    border-radius: var(--lumo-border-radius-m);
+    margin-bottom: var(--lumo-space-m);
+    padding-top: var(--lumo-space-m);
+    text-align: left;
+    width: 100%;
+}
+
+.vaccine-notifications-div * {
+    color: #8B0000;
+    /*color: white;*/
+}
+
+.vaccine-notifications-div ul {
+    list-style-type: none;
+}
+
+.vaccine-notifications-div ul li{
+    height: 35px;
+}

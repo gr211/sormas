@@ -7,6 +7,7 @@ import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
 import lu.formas.security.SecurityService;
+import lu.formas.services.NotificationService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
 import lu.formas.views.MainView;
@@ -21,7 +22,7 @@ public class DashboardView extends VerticalLayout {
     SecurityService securityService;
 
     @Autowired
-    public DashboardView(PatientService patientService, VaccineService vaccineService, AuthenticationContext authContext, SecurityService securityService) {
+    public DashboardView(PatientService patientService, VaccineService vaccineService, AuthenticationContext authContext, NotificationService notificationService, SecurityService securityService) {
 
         this.authContext = authContext;
         this.securityService = securityService;
@@ -30,7 +31,7 @@ public class DashboardView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
 
         val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService);
-        val vaccinationHistoryView = new VaccinationHistoryView(vaccinationHistoryGrid, patientService, vaccineService, securityService);
+        val vaccinationHistoryView = new VaccinationHistoryView(vaccinationHistoryGrid, patientService, vaccineService, notificationService, securityService);
         add(
                 vaccinationHistoryView,
                 vaccinationHistoryGrid
