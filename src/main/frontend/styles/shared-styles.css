@@ -86,3 +86,36 @@ table.tableblock {
     min-width: 100px;
     margin-bottom: var(--lumo-space-m);
 }
+
+.vaccine-notifications-div {
+    background-color: white;
+    border-radius: var(--lumo-border-radius-m);
+    margin-bottom: var(--lumo-space-m);
+    padding-top: var(--lumo-space-m);
+    text-align: left;
+    width: 100%;
+}
+
+.due-vaccine-notifications-div {
+    border-color: #8B0000;
+}
+
+.upcoming-due-vaccine-notifications-div {
+    border-color: #ff9800;
+}
+
+.due-vaccine-notifications-div * {
+    color: #8B0000;
+}
+
+.upcoming-vaccine-notifications-div * {
+    color: #ff9800;
+}
+
+.vaccine-notifications-div ul {
+    list-style-type: none;
+}
+
+.vaccine-notifications-div ul li{
+    height: 35px;
+}

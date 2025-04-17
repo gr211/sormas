@@ -2,7 +2,7 @@ target
 .idea
 generated
 
-formas-db.*.db
+sormas-db.*.db
 node_modules
 bundles
 *.ts
