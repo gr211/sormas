@@ -1,4 +1,4 @@
-package lu.formas.views.security.forms;
+package lu.sormas.views.security.forms;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.HasValueAndElement;
@@ -15,8 +15,8 @@ import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.ValueContext;
 import lombok.SneakyThrows;
 import lombok.val;
-import lu.formas.repository.model.User;
-import lu.formas.services.UserService;
+import lu.sormas.repository.model.User;
+import lu.sormas.services.UserService;
 
 import java.time.LocalDate;
 import java.util.Objects;

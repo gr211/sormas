@@ -1,11 +1,11 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import lombok.val;
-import lu.formas.Application;
-import lu.formas.repository.model.PatientVaccine;
-import lu.formas.repository.model.Vaccine;
-import lu.formas.services.NotificationService;
-import lu.formas.services.PatientService;
+import lu.sormas.Application;
+import lu.sormas.repository.model.PatientVaccine;
+import lu.sormas.repository.model.Vaccine;
+import lu.sormas.services.NotificationService;
+import lu.sormas.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

@@ -1,4 +1,4 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -7,12 +7,12 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
-import lu.formas.security.SecurityService;
-import lu.formas.services.NotificationService;
-import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
-import lu.formas.services.VaccineService;
-import lu.formas.views.MainView;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.NotificationService;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.UserService;
+import lu.sormas.services.VaccineService;
+import lu.sormas.views.MainView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RolesAllowed({"USER"})

@@ -1,4 +1,4 @@
-package lu.formas.views;
+package lu.sormas.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -16,9 +16,9 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import lombok.val;
-import lu.formas.views.dashboard.DashboardView;
-import lu.formas.views.profile.ProfileView;
-import lu.formas.views.security.LogoutView;
+import lu.sormas.views.dashboard.DashboardView;
+import lu.sormas.views.profile.ProfileView;
+import lu.sormas.views.security.LogoutView;
 
 @CssImport("./styles/shared-styles.css")
 @Layout

@@ -1,9 +1,9 @@
-package lu.formas.views.security.forms;
+package lu.sormas.views.security.forms;
 
 import lombok.val;
-import lu.formas.Application;
-import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
+import lu.sormas.Application;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

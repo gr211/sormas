@@ -1,16 +1,16 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import lombok.val;
-import lu.formas.Application;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.Vaccine;
-import lu.formas.security.SecurityService;
-import lu.formas.services.NotificationService;
-import lu.formas.services.PatientService;
-import lu.formas.services.VaccineService;
-import lu.formas.services.model.VaccinesByMaturity;
-import lu.formas.services.model.VaccinesByMaturityKey;
-import lu.formas.services.model.VaccinesByMaturityValue;
+import lu.sormas.Application;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.Vaccine;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.NotificationService;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.VaccineService;
+import lu.sormas.services.model.VaccinesByMaturity;
+import lu.sormas.services.model.VaccinesByMaturityKey;
+import lu.sormas.services.model.VaccinesByMaturityValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

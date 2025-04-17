@@ -1,4 +1,4 @@
-package lu.formas.repository.model;
+package lu.sormas.repository.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

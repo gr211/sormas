@@ -1,4 +1,4 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.button.Button;
@@ -14,10 +14,10 @@ import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import lombok.val;
-import lu.formas.repository.model.PatientVaccine;
-import lu.formas.security.SecurityService;
-import lu.formas.services.NotificationService;
-import lu.formas.services.PatientService;
+import lu.sormas.repository.model.PatientVaccine;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.NotificationService;
+import lu.sormas.services.PatientService;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;

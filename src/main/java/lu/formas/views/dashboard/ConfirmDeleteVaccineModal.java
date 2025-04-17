@@ -1,4 +1,4 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -10,9 +10,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.Getter;
 import lombok.val;
-import lu.formas.repository.model.PatientVaccine;
-import lu.formas.services.NotificationService;
-import lu.formas.services.PatientService;
+import lu.sormas.repository.model.PatientVaccine;
+import lu.sormas.services.NotificationService;
+import lu.sormas.services.PatientService;
 
 @Getter
 public class ConfirmDeleteVaccineModal extends Dialog {

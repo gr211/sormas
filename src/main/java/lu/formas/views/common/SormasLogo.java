@@ -1,4 +1,4 @@
-package lu.formas.views.common;
+package lu.sormas.views.common;
 
 import com.vaadin.flow.component.html.Image;
 

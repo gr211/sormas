@@ -1,4 +1,4 @@
-package lu.formas.repository.model;
+package lu.sormas.repository.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

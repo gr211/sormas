@@ -1,4 +1,4 @@
-package lu.formas.views.profile.forms;
+package lu.sormas.views.profile.forms;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -8,9 +8,9 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.val;
-import lu.formas.repository.model.User;
-import lu.formas.security.SecurityService;
-import lu.formas.services.UserService;
+import lu.sormas.repository.model.User;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.UserService;
 
 public class ConfirmDelete extends Dialog {
     public ConfirmDelete(User user, UserService userService, SecurityService securityService) {

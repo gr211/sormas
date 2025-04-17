@@ -1,4 +1,4 @@
-package lu.formas.services;
+package lu.sormas.services;
 
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -8,9 +8,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import io.vavr.collection.Stream;
 import lombok.val;
 import lombok.var;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.Vaccine;
-import lu.formas.services.model.Notifications;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.Vaccine;
+import lu.sormas.services.model.Notifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

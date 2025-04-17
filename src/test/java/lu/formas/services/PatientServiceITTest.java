@@ -1,13 +1,13 @@
-package lu.formas.services;
+package lu.sormas.services;
 
 import jakarta.persistence.EntityManager;
 import lombok.SneakyThrows;
 import lombok.val;
-import lu.formas.repository.PatientRepository;
-import lu.formas.repository.VaccineRepository;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.PatientVaccine;
-import lu.formas.repository.model.Vaccine;
+import lu.sormas.repository.PatientRepository;
+import lu.sormas.repository.VaccineRepository;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.PatientVaccine;
+import lu.sormas.repository.model.Vaccine;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

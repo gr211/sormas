@@ -1,11 +1,11 @@
-package lu.formas.security;
+package lu.sormas.security;
 
 import lombok.SneakyThrows;
 import lombok.val;
-import lu.formas.Application;
-import lu.formas.repository.UserRepository;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.User;
+import lu.sormas.Application;
+import lu.sormas.repository.UserRepository;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

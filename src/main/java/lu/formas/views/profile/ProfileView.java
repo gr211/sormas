@@ -1,4 +1,4 @@
-package lu.formas.views.profile;
+package lu.sormas.views.profile;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -6,11 +6,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.val;
-import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
-import lu.formas.views.MainView;
-import lu.formas.views.profile.forms.PatientProfileForm;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.UserService;
+import lu.sormas.views.MainView;
+import lu.sormas.views.profile.forms.PatientProfileForm;
 
 @RolesAllowed({"USER"})
 @Route(value = "profile", layout = MainView.class)

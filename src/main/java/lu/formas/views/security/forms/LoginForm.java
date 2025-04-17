@@ -1,4 +1,4 @@
-package lu.formas.views.security.forms;
+package lu.sormas.views.security.forms;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.HasValueAndElement;
@@ -15,9 +15,9 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.Getter;
 import lombok.val;
-import lu.formas.repository.model.Login;
-import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
+import lu.sormas.repository.model.Login;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

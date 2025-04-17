@@ -1,4 +1,4 @@
-package lu.formas.views.security;
+package lu.sormas.views.security;
 
 
 import com.vaadin.flow.component.html.H1;
@@ -7,10 +7,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
-import lu.formas.services.UserService;
-import lu.formas.views.MainView;
-import lu.formas.views.common.SormasLogo;
-import lu.formas.views.security.forms.PatientRegistrationForm;
+import lu.sormas.services.UserService;
+import lu.sormas.views.MainView;
+import lu.sormas.views.common.SormasLogo;
+import lu.sormas.views.security.forms.PatientRegistrationForm;
 
 @Route(value = "register", layout = MainView.class)
 @PageTitle("Register")

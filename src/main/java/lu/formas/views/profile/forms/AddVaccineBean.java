@@ -1,4 +1,4 @@
-package lu.formas.views.profile.forms;
+package lu.sormas.views.profile.forms;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lu.formas.services.model.VaccinesByMaturityValue;
+import lu.sormas.services.model.VaccinesByMaturityValue;
 
 import java.time.LocalDate;
 

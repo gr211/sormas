@@ -1,6 +1,6 @@
-package lu.formas.repository;
+package lu.sormas.repository;
 
-import lu.formas.repository.model.Patient;
+import lu.sormas.repository.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;

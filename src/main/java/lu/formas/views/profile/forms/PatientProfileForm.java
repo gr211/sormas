@@ -1,4 +1,4 @@
-package lu.formas.views.profile.forms;
+package lu.sormas.views.profile.forms;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
@@ -10,10 +10,10 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.SneakyThrows;
 import lombok.val;
-import lu.formas.repository.model.User;
-import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
+import lu.sormas.repository.model.User;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.UserService;
 
 import java.time.LocalDate;
 

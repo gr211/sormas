@@ -1,7 +1,7 @@
-package lu.formas.security;
+package lu.sormas.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
-import lu.formas.views.security.LoginView;
+import lu.sormas.views.security.LoginView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

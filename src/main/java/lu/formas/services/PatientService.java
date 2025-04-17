@@ -1,11 +1,11 @@
-package lu.formas.services;
+package lu.sormas.services;
 
 import lombok.val;
 import lombok.var;
-import lu.formas.repository.PatientRepository;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.PatientVaccine;
-import lu.formas.repository.model.Vaccine;
+import lu.sormas.repository.PatientRepository;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.PatientVaccine;
+import lu.sormas.repository.model.Vaccine;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,8 @@
-package lu.formas.services.model;
+package lu.sormas.services.model;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import lu.formas.repository.model.Vaccine;
+import lu.sormas.repository.model.Vaccine;
 
 import java.util.List;
 

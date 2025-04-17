@@ -1,14 +1,14 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.val;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.User;
-import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
-import lu.formas.services.VaccineService;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.User;
+import lu.sormas.security.SecurityService;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.VaccineService;
 
 public class VaccinationHistoryView extends VerticalLayout {
 

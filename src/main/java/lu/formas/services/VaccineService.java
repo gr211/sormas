@@ -1,8 +1,8 @@
-package lu.formas.services;
+package lu.sormas.services;
 
-import lu.formas.repository.VaccineRepository;
-import lu.formas.repository.model.Vaccine;
-import lu.formas.services.model.VaccinesByMaturity;
+import lu.sormas.repository.VaccineRepository;
+import lu.sormas.repository.model.Vaccine;
+import lu.sormas.services.model.VaccinesByMaturity;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

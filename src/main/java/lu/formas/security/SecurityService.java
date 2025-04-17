@@ -1,4 +1,4 @@
-package lu.formas.security;
+package lu.sormas.security;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;

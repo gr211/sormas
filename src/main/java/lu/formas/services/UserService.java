@@ -1,11 +1,11 @@
-package lu.formas.services;
+package lu.sormas.services;
 
 import lombok.val;
-import lu.formas.repository.PatientRepository;
-import lu.formas.repository.UserRepository;
-import lu.formas.repository.model.Login;
-import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.User;
+import lu.sormas.repository.PatientRepository;
+import lu.sormas.repository.UserRepository;
+import lu.sormas.repository.model.Login;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.repository.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

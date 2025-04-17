@@ -1,8 +1,8 @@
-package lu.formas.repository;
+package lu.sormas.repository;
 
 import jakarta.persistence.EntityManager;
 import lombok.val;
-import lu.formas.repository.model.Patient;
+import lu.sormas.repository.model.Patient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

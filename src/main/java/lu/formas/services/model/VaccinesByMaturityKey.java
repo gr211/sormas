@@ -1,4 +1,4 @@
-package lu.formas.services.model;
+package lu.sormas.services.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

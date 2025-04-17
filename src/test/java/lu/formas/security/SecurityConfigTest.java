@@ -1,4 +1,4 @@
-package lu.formas.security;
+package lu.sormas.security;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;

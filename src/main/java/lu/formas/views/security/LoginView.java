@@ -1,4 +1,4 @@
-package lu.formas.views.security;
+package lu.sormas.views.security;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
@@ -6,11 +6,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import lombok.val;
-import lu.formas.services.PatientService;
-import lu.formas.services.UserService;
-import lu.formas.views.MainView;
-import lu.formas.views.common.SormasLogo;
-import lu.formas.views.security.forms.LoginForm;
+import lu.sormas.services.PatientService;
+import lu.sormas.services.UserService;
+import lu.sormas.views.MainView;
+import lu.sormas.views.common.SormasLogo;
+import lu.sormas.views.security.forms.LoginForm;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import static com.vaadin.flow.component.Key.ENTER;

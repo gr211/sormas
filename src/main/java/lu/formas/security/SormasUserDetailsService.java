@@ -1,7 +1,7 @@
-package lu.formas.security;
+package lu.sormas.security;
 
 import lombok.val;
-import lu.formas.repository.UserRepository;
+import lu.sormas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

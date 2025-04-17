@@ -1,10 +1,10 @@
-package lu.formas.services.model;
+package lu.sormas.services.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.val;
-import lu.formas.repository.model.Vaccine;
+import lu.sormas.repository.model.Vaccine;
 
 import java.util.Comparator;
 

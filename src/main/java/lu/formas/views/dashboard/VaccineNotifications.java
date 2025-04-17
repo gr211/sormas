@@ -1,4 +1,4 @@
-package lu.formas.views.dashboard;
+package lu.sormas.views.dashboard;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
@@ -7,8 +7,8 @@ import com.vaadin.flow.component.html.UnorderedList;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import io.vavr.collection.Stream;
 import lombok.val;
-import lu.formas.repository.model.Patient;
-import lu.formas.services.NotificationService;
+import lu.sormas.repository.model.Patient;
+import lu.sormas.services.NotificationService;
 
 public class VaccineNotifications extends VerticalLayout {
     private final NotificationService notificationService;

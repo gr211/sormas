@@ -1,4 +1,4 @@
-package lu.formas.views.security;
+package lu.sormas.views.security;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -7,7 +7,7 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.AuthenticationContext;
-import lu.formas.security.SecurityService;
+import lu.sormas.security.SecurityService;
 
 @Route(value = "logout", autoLayout = false)
 @AnonymousAllowed
