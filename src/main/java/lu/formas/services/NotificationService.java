@@ -57,6 +57,17 @@ public class NotificationService {
         return new Notifications(Collections.emptyList(), Collections.emptyList());
     }
 
+    /**
+     * Returns a list of vaccines that are coming up for the given patient.
+     * <p>
+     * Are considered coming up vaccines those that are due at least the next month of the patient.
+     * And only the next batch of vaccines are returned.
+     * <p>
+     * For example, if the patient is 3 months old, and 2 vaccines are due at 4 month, and another 3 are due at 5 months, then
+     * only the 2 vaccines due at 4 months are returned.
+     * <p>
+     * When the patient turns 4 months old, the next batch of vaccines will be 3 vaccines due at 5 months.
+     */
     public List<Vaccine> nextVaccines(Patient patient) {
         val months = ageInMonths(patient);
 
@@ -65,7 +76,7 @@ public class NotificationService {
         val vaccines = Stream.ofAll(vaccineService.vaccines()).filter(vaccine -> Objects.isNull(alreadyVaccinated) ||
                 alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine().equals(vaccine)));
 
-        val futureVaccines = vaccines.filter(vaccine -> vaccine.getMaturityMonth() >= months);
+        val futureVaccines = vaccines.filter(vaccine -> vaccine.getMaturityMonth() > months);
         val nextEligibleMaturityMonth = futureVaccines.minBy(Vaccine::getMaturityMonth);
 
         if (nextEligibleMaturityMonth.isEmpty()) { // no more vaccines coming up
@@ -77,6 +88,14 @@ public class NotificationService {
         return eligibleMaturityMonthVaccines.collect(Collectors.toList());
     }
 
+    /**
+     * Returns a list of overdue vaccines for the given patient.
+     * <p>
+     * Are considered overdue vaccines those that are due at the current month of the patient.
+     * In order words, missed vaccines from previous months are ignored.
+     * <p>
+     * For example, if the patient is 3 months old and the vaccines are due at 1, 2 and 3 months,
+     */
     public List<Vaccine> overdueVaccines(Patient patient) {
         val months = ageInMonths(patient);
 
@@ -84,7 +103,7 @@ public class NotificationService {
 
         var alreadyVaccinated = patient.getPatientVaccines();
 
-        val pastVaccines = Stream.ofAll(vaccines).filter(vaccine -> vaccine.getMaturityMonth() < months);
+        val pastVaccines = Stream.ofAll(vaccines).filter(vaccine -> vaccine.getMaturityMonth() <= months);
 
         val overdueVaccines = pastVaccines.filter(vaccine -> Objects.isNull(alreadyVaccinated) ||
                 alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine().equals(vaccine)));
