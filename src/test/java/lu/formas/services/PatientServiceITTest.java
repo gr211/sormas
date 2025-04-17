@@ -66,7 +66,7 @@ class PatientServiceITTest {
         entityManager.flush();
         entityManager.clear();
 
-        val patient2 = service.byEMail("abc@gmail.com").get();
+        val patient2 = service.byEmail("abc@gmail.com").get();
         assert patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName().equals("Vaccine");
     }
 
@@ -101,7 +101,7 @@ class PatientServiceITTest {
             entityManager.flush();
             entityManager.clear();
 
-            val patient2 = service.byEMail("abc@gmail.com").get();
+            val patient2 = service.byEmail("abc@gmail.com").get();
             Assertions.assertEquals("Vaccine", patient2.getPatientVaccines().stream().findFirst().get().getVaccine().getName());
         }
 
@@ -111,7 +111,7 @@ class PatientServiceITTest {
             entityManager.flush();
             entityManager.clear();
 
-            val patient2 = service.byEMail("abc@gmail.com").get();
+            val patient2 = service.byEmail("abc@gmail.com").get();
 
             val vaccines = new ArrayList<>(patient2.getPatientVaccines());
             Assertions.assertEquals(2, vaccines.size());
@@ -150,7 +150,7 @@ class PatientServiceITTest {
         entityManager.flush();
         entityManager.clear();
 
-        val patient2 = service.byEMail("abc@gmail.com").get();
+        val patient2 = service.byEmail("abc@gmail.com").get();
         val vaccines = new ArrayList<>(patient2.getPatientVaccines());
         Assertions.assertEquals(2, vaccines.size());
     }
@@ -178,7 +178,7 @@ class PatientServiceITTest {
         entityManager.flush();
         entityManager.clear();
 
-        val patient2 = service.byEMail("abc@gmail.com").get();
+        val patient2 = service.byEmail("abc@gmail.com").get();
         val vaccines = new ArrayList<>(patient2.getPatientVaccines());
         Assertions.assertEquals(1, vaccines.size());
 
@@ -190,7 +190,7 @@ class PatientServiceITTest {
         entityManager.flush();
         entityManager.clear();
 
-        val patient3 = service.byEMail("abc@gmail.com").get();
+        val patient3 = service.byEmail("abc@gmail.com").get();
         val vaccines2 = new ArrayList<>(patient3.getPatientVaccines());
         Assertions.assertEquals(true, vaccines2.isEmpty());
     }

@@ -5,6 +5,7 @@ import lombok.val;
 import lombok.var;
 import lu.formas.repository.model.Patient;
 import lu.formas.repository.model.Vaccine;
+import lu.formas.services.model.Notifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,14 +32,24 @@ public class NotificationService {
                 LocalDate.now().minusDays(1));
     }
 
-    public List<Vaccine> nextVaccines(String email) {
-        val patient = patientService.byEMail(email);
+    public Notifications notifications(Patient patient) {
+        val nextVaccines = nextVaccines(patient);
+        val overdueVaccines = overdueVaccines(patient);
+
+        return new Notifications(nextVaccines, overdueVaccines);
+    }
+
+    public Notifications notifications(String email) {
+        val patient = patientService.byEmail(email);
 
         if (patient.isPresent()) {
-            return nextVaccines(patient.get());
+            val nextVaccines = nextVaccines(patient.get());
+            val overdueVaccines = overdueVaccines(patient.get());
+
+            return new Notifications(nextVaccines, overdueVaccines);
         }
 
-        return Collections.emptyList();
+        return new Notifications(Collections.emptyList(), Collections.emptyList());
     }
 
     public List<Vaccine> nextVaccines(Patient patient) {
@@ -59,16 +70,6 @@ public class NotificationService {
         val eligibleMaturityMonthVaccines = futureVaccines.filter(e -> e.getMaturityMonth().intValue() == nextEligibleMaturityMonth.get().getMaturityMonth().intValue());
 
         return eligibleMaturityMonthVaccines.collect(Collectors.toList());
-    }
-
-    public List<Vaccine> overdueVaccines(String email) {
-        val patient = patientService.byEMail(email);
-
-        if (patient.isPresent()) {
-            return overdueVaccines(patient.get());
-        }
-
-        return Collections.emptyList();
     }
 
     public List<Vaccine> overdueVaccines(Patient patient) {

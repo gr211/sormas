@@ -38,12 +38,12 @@ public class PatientService {
         return repository.findByEmail(userDetails.getUsername());
     }
 
-    public Optional<Patient> byEMail(String email) {
+    public Optional<Patient> byEmail(String email) {
         return repository.findByEmail(email);
     }
 
     public void addToVaccines(String email, Vaccine vaccine, LocalDate date, String comments) {
-        val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
+        val patient = byEmail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
 
         val patientVaccine = new PatientVaccine();
         patientVaccine.setPatient(patient);
@@ -65,7 +65,7 @@ public class PatientService {
     }
 
     public List<PatientVaccine> getVaccinesEntries(String email) {
-        val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
+        val patient = byEmail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
         var patientVaccines = patient.getPatientVaccines();
 
         if (patientVaccines == null) {
@@ -78,7 +78,7 @@ public class PatientService {
     }
 
     public void removeVaccination(String email, PatientVaccine patientVaccine) {
-        val patient = byEMail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
+        val patient = byEmail(email).orElseThrow(() -> new RuntimeException("Patient with email " + email + " does not exist"));
 
         var patientVaccines = patient.getPatientVaccines();
 

@@ -71,9 +71,6 @@ class NotificationServiceITTest {
 
         val nextVaccines = notificationService.nextVaccines(patient);
         assertEquals(Arrays.asList(inFuture), nextVaccines);
-
-        val nextVaccinesByEmail = notificationService.nextVaccines(patient.getEmail());
-        assertEquals(Arrays.asList(inFuture), nextVaccinesByEmail);
     }
 
 
@@ -101,8 +98,5 @@ class NotificationServiceITTest {
 
         val nextVaccines = notificationService.overdueVaccines(patient);
         assertEquals(Arrays.asList(vaccine1, vaccine2), nextVaccines);
-
-        val nextVaccinesByEmail = notificationService.overdueVaccines(patient.getEmail());
-        assertEquals(Arrays.asList(vaccine1, vaccine2), nextVaccinesByEmail);
     }
 }

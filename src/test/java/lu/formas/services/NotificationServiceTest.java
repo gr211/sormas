@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -137,5 +138,67 @@ class NotificationServiceTest {
 
         val overdueVaccines = service.overdueVaccines(oneYearOldPatient);
         assertEquals(Arrays.asList(overdue1, overdue2, overdue3, overdue4), overdueVaccines);
+    }
+
+    @Test
+    @SneakyThrows
+    public void test_Notifications_By_Patient() {
+
+        val oneYearOldPatient = new Patient();
+        oneYearOldPatient.setDob(LocalDate.now().minusMonths(12));
+        oneYearOldPatient.setEmail("email");
+
+        val service = new NotificationService(patientService, vaccineService);
+
+        val overdue = new Vaccine();
+        overdue.setId(0L);
+        overdue.setName("Vaccine");
+        overdue.setMaturityMonth(0);
+
+        val next = new Vaccine();
+        next.setId(1L);
+        next.setName("Vaccine");
+        next.setMaturityMonth(15);
+
+        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(overdue, next));
+
+        val notifications = service.notifications(oneYearOldPatient);
+        assertEquals(Collections.singletonList(next), notifications.getNextVaccines());
+        assertEquals(Collections.singletonList(overdue), notifications.getOverdueVaccines());
+
+        Mockito.verify(vaccineService, Mockito.times(2)).vaccines();
+        Mockito.verifyNoMoreInteractions(vaccineService);
+    }
+
+    @Test
+    @SneakyThrows
+    public void test_Notifications_By_Email() {
+
+        val oneYearOldPatient = new Patient();
+        oneYearOldPatient.setDob(LocalDate.now().minusMonths(12));
+        oneYearOldPatient.setEmail("email");
+
+        val service = new NotificationService(patientService, vaccineService);
+
+        val overdue = new Vaccine();
+        overdue.setId(0L);
+        overdue.setName("Vaccine");
+        overdue.setMaturityMonth(0);
+
+        val next = new Vaccine();
+        next.setId(1L);
+        next.setName("Vaccine");
+        next.setMaturityMonth(15);
+
+        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(overdue, next));
+        Mockito.when(patientService.byEmail(Mockito.anyString())).thenReturn(Optional.of(oneYearOldPatient));
+
+        val notifications = service.notifications(oneYearOldPatient.getEmail());
+        assertEquals(Collections.singletonList(next), notifications.getNextVaccines());
+        assertEquals(Collections.singletonList(overdue), notifications.getOverdueVaccines());
+
+        Mockito.verify(patientService).byEmail(Mockito.eq("email"));
+        Mockito.verify(vaccineService, Mockito.times(2)).vaccines();
+        Mockito.verifyNoMoreInteractions(vaccineService);
     }
 }
