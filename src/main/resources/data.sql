@@ -30,7 +30,7 @@ VALUES (9, 'Rotavirus (3rd dose)', 4, 'Rotavirus', 'Vaccine for Rotavirus') ON C
 
 -- 5 months
 INSERT INTO vaccines (ID, NAME, MATURITY_MONTH, DESCRIPTION, GOALS)
-VALUES (10, 'Meningococcal B (2nd dose)', 3, 'Meningococcal B', 'Vaccine for Meningococcus B') ON CONFLICT DO NOTHING;
+VALUES (10, 'Meningococcal B (2nd dose)', 5, 'Meningococcal B', 'Vaccine for Meningococcus B') ON CONFLICT DO NOTHING;
 
 -- 6 months
 INSERT INTO vaccines (ID, NAME, MATURITY_MONTH, DESCRIPTION, GOALS)
