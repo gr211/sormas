@@ -24,6 +24,8 @@ public class Vaccine {
     @Min(value = 0)
     private Integer maturityMonth;
 
+    private Integer overdueLimit;
+
     @Size(max = 256)
     private String description;
 
