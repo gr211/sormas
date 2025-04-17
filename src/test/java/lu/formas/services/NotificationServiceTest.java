@@ -63,18 +63,18 @@ class NotificationServiceTest {
         val nextOne1 = new Vaccine();
         nextOne1.setId(1L);
         nextOne1.setName("Vaccine");
-        nextOne1.setMaturityMonth(1);
+        nextOne1.setMaturityMonth(2);
 
         val nextOne2 = new Vaccine();
         nextOne2.setId(11L);
         nextOne2.setName("Vaccine");
-        nextOne2.setMaturityMonth(1);
+        nextOne2.setMaturityMonth(2);
 
         // Will be ignored - patient already vaccinated
         val nextOne3 = new Vaccine();
         nextOne3.setId(111L);
         nextOne3.setName("Vaccine");
-        nextOne3.setMaturityMonth(1);
+        nextOne3.setMaturityMonth(2);
 
         val tooFarInTime = new Vaccine();
         tooFarInTime.setId(2L);
@@ -142,6 +142,31 @@ class NotificationServiceTest {
 
     @Test
     @SneakyThrows
+    public void test_Overdue_Vaccine_Past_Overdue_Limit() {
+        val service = new NotificationService(patientService, vaccineService);
+
+        val overdue1 = new Vaccine();
+        overdue1.setId(0L);
+        overdue1.setName("Vaccine");
+        overdue1.setMaturityMonth(3);
+
+        val overdue2 = new Vaccine();
+        overdue2.setId(1L);
+        overdue2.setName("Vaccine");
+        overdue2.setMaturityMonth(3);
+        overdue2.setOverdueLimit(1);
+
+        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(overdue1, overdue2));
+
+        val sixMonthOldPatient = new Patient();
+        sixMonthOldPatient.setDob(LocalDate.now().minusMonths(6).minusDays(1));
+
+        val overdueVaccines = service.overdueVaccines(sixMonthOldPatient);
+        assertEquals(Collections.singletonList(overdue1), overdueVaccines);
+    }
+
+    @Test
+    @SneakyThrows
     public void test_Notifications_By_Patient() {
 
         val oneYearOldPatient = new Patient();
@@ -173,7 +198,6 @@ class NotificationServiceTest {
     @Test
     @SneakyThrows
     public void test_Notifications_By_Email() {
-
         val oneYearOldPatient = new Patient();
         oneYearOldPatient.setDob(LocalDate.now().minusMonths(12));
         oneYearOldPatient.setEmail("email");
@@ -200,5 +224,22 @@ class NotificationServiceTest {
         Mockito.verify(patientService).byEmail(Mockito.eq("email"));
         Mockito.verify(vaccineService, Mockito.times(2)).vaccines();
         Mockito.verifyNoMoreInteractions(vaccineService);
+    }
+
+    @Test
+    @SneakyThrows
+    public void test_PastOverdueLimit() {
+        val noLimit = new Vaccine() {{
+            setMaturityMonth(3);
+        }};
+        assertEquals(false, NotificationService.pastOverdueLimit(noLimit, 12));
+
+        val sixMonthsLimit = new Vaccine() {{
+            setMaturityMonth(3);
+            setOverdueLimit(6);
+        }};
+        assertEquals(true, NotificationService.pastOverdueLimit(sixMonthsLimit, 12));
+        assertEquals(false, NotificationService.pastOverdueLimit(sixMonthsLimit, 9));
+        assertEquals(false, NotificationService.pastOverdueLimit(sixMonthsLimit, 8));
     }
 }

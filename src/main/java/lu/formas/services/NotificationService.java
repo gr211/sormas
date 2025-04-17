@@ -95,6 +95,12 @@ public class NotificationService {
      * In order words, missed vaccines from previous months are ignored.
      * <p>
      * For example, if the patient is 3 months old and the vaccines are due at 1, 2 and 3 months,
+     * <p>
+     * -----------------------------------------------------------------------------------------
+     * Another aspect to consider is the overdue limit of the vaccine.
+     * From the documentation, provided, only the RSV (up to 6 months only) vaccine has an overdue limit of 6 month.
+     * <p>
+     * The other vaccines do NOT have an overdue limit. And are therefore due for however long the patient is overdue taking them.
      */
     public List<Vaccine> overdueVaccines(Patient patient) {
         val months = ageInMonths(patient);
@@ -103,12 +109,18 @@ public class NotificationService {
 
         var alreadyVaccinated = patient.getPatientVaccines();
 
-        val pastVaccines = Stream.ofAll(vaccines).filter(vaccine -> vaccine.getMaturityMonth() <= months);
+        val pastVaccines = Stream.ofAll(vaccines)
+                .filter(vaccine -> vaccine.getMaturityMonth() <= months)
+                .filter(vaccine -> !NotificationService.pastOverdueLimit(vaccine, months));
 
         val overdueVaccines = pastVaccines.filter(vaccine -> Objects.isNull(alreadyVaccinated) ||
                 alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine().equals(vaccine)));
 
         return overdueVaccines.collect(Collectors.toList());
+    }
+
+    public static boolean pastOverdueLimit(Vaccine vaccine, long patientAgeInMonths) {
+        return Objects.nonNull(vaccine.getOverdueLimit()) && vaccine.getOverdueLimit() + vaccine.getMaturityMonth() < patientAgeInMonths;
     }
 
     public static HorizontalLayout showVaccine(Vaccine vaccine) {
