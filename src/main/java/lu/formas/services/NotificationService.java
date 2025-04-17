@@ -1,11 +1,9 @@
 package lu.formas.services;
 
-import io.vavr.Tuple2;
 import io.vavr.collection.Stream;
 import lombok.val;
 import lombok.var;
 import lu.formas.repository.model.Patient;
-import lu.formas.repository.model.PatientVaccine;
 import lu.formas.repository.model.Vaccine;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +31,16 @@ public class NotificationService {
                 LocalDate.now().minusDays(1));
     }
 
+    public List<Vaccine> nextVaccines(String email) {
+        val patient = patientService.byEMail(email);
+
+        if (patient.isPresent()) {
+            return nextVaccines(patient.get());
+        }
+
+        return Collections.emptyList();
+    }
+
     public List<Vaccine> nextVaccines(Patient patient) {
         val months = ageInMonths(patient);
 
@@ -50,20 +58,17 @@ public class NotificationService {
 
         val eligibleMaturityMonthVaccines = futureVaccines.filter(e -> e.getMaturityMonth().intValue() == nextEligibleMaturityMonth.get().getMaturityMonth().intValue());
 
-        // this may seem a little complicated. Yet it nicely does away with issues around static initialization since alreadyVaccinated may be null.
-        val streamedAlreadyVaccinated = Stream.continually(() -> {
-            if (Objects.isNull(alreadyVaccinated)) {
-                return Collections.<PatientVaccine>emptySet();
-            }
+        return eligibleMaturityMonthVaccines.collect(Collectors.toList());
+    }
 
-            return alreadyVaccinated;
-        }).map(patientVaccines -> Stream.ofAll(patientVaccines).map(PatientVaccine::getVaccine).collect(Collectors.toList()));
+    public List<Vaccine> overdueVaccines(String email) {
+        val patient = patientService.byEMail(email);
 
-        val remainingVaccines = streamedAlreadyVaccinated.zip(eligibleMaturityMonthVaccines)
-                .filter((tuples) -> !tuples._1.contains(tuples._2));
+        if (patient.isPresent()) {
+            return overdueVaccines(patient.get());
+        }
 
-
-        return remainingVaccines.map(Tuple2::_2).collect(Collectors.toList());
+        return Collections.emptyList();
     }
 
     public List<Vaccine> overdueVaccines(Patient patient) {
