@@ -14,9 +14,8 @@ import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.ValueContext;
 import lombok.SneakyThrows;
 import lombok.val;
-import lu.formas.repository.model.Patient;
-import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
+import lu.formas.repository.model.User;
+import lu.formas.services.UserService;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -30,13 +29,11 @@ public class PatientRegistrationForm extends FormLayout {
     private Button save = new Button("Save");
     private Button close = new Button("Cancel");
 
-    private Binder<Patient> binder = new BeanValidationBinder<>(Patient.class);
-    private PatientService patientService;
-    private SecurityService securityService;
+    private Binder<User> binder = new BeanValidationBinder<>(User.class);
+    private UserService userService;
 
-    public PatientRegistrationForm(PatientService patientService, SecurityService securityService) {
-        this.patientService = patientService;
-        this.securityService = securityService;
+    public PatientRegistrationForm(UserService patientService) {
+        this.userService = patientService;
 
         val buttons = new HorizontalLayout(save, close);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -76,9 +73,9 @@ public class PatientRegistrationForm extends FormLayout {
             return ValidationResult.error("Email address is required");
         }
 
-        val patient = new Patient();
-        patient.setEmail(email);
-        if (patientService.exists(patient)) {
+        val user = new User();
+        user.setEmail(email);
+        if (userService.exists(user)) {
             return ValidationResult.error("Email address is already registered");
         }
 
@@ -91,11 +88,11 @@ public class PatientRegistrationForm extends FormLayout {
 
     @SneakyThrows
     private void save(ClickEvent<Button> event) {
-        val patient = new Patient();
-        binder.writeBeanIfValid(patient);
+        val user = new User();
+        binder.writeBeanIfValid(user);
 
         if (binder.isValid()) {
-            patientService.save(patient);
+            userService.save(user);
             close(event);
         }
     }

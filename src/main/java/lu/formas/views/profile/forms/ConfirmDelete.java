@@ -8,12 +8,12 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.val;
-import lu.formas.repository.model.Patient;
+import lu.formas.repository.model.User;
 import lu.formas.security.SecurityService;
-import lu.formas.services.PatientService;
+import lu.formas.services.UserService;
 
 public class ConfirmDelete extends Dialog {
-    public ConfirmDelete(Patient patient, PatientService patientService, SecurityService securityService) {
+    public ConfirmDelete(User user, UserService userService, SecurityService securityService) {
         setCloseOnEsc(true);
         setCloseOnOutsideClick(true);
         setClassName("confirm-delete");
@@ -24,7 +24,7 @@ public class ConfirmDelete extends Dialog {
 
         val buttonsLayout = new HorizontalLayout();
         val confirmButton = new Button("Confirm", event -> {
-            patientService.delete(patient);
+            userService.delete(user);
             securityService.logout();
 
             close();
