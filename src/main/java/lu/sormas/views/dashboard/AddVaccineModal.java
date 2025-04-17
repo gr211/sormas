@@ -44,7 +44,7 @@ public class AddVaccineModal extends Dialog {
     private Binder<AddVaccineBean> binder = new BeanValidationBinder<>(AddVaccineBean.class);
     private AddVaccineBean bean = new AddVaccineBean();
 
-    public AddVaccineModal(Patient patient, VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService, VaccineNotifications vaccineNotifications) {
+    public AddVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, SecurityService securityService, VaccineNotifications vaccineNotifications) {
         this.vaccineService = vaccineService;
         this.securityService = securityService;
         this.patientService = patientService;
@@ -133,7 +133,6 @@ public class AddVaccineModal extends Dialog {
         select.setItemEnabledProvider(
                 byMaturityValue -> !byMaturityValue.isPlaceholder() && !vaccineList.contains(byMaturityValue.getVaccine())
         );
-
 
         select.setWidthFull();
 

@@ -12,20 +12,15 @@ import lu.sormas.services.VaccineService;
 
 public class VaccinationHistoryView extends VerticalLayout {
 
-    private final AddVaccineModal addVaccineModal;
-
     public VaccinationHistoryView(Patient patient, User user, VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, VaccineNotifications vaccineNotifications, SecurityService securityService) {
         setClassName("vaccination-history-view-layout");
         setJustifyContentMode(JustifyContentMode.START);
         setAlignItems(Alignment.START);
 
-
-        addVaccineModal = new AddVaccineModal(patient, vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
-
         val title = new H1( user.getFirstName() + " " + user.getLastName() + " - vaccination history");
 
         val addVaccine = new Button("Add vaccine", event -> {
-            addVaccineModal.open();
+            new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications).open();
         });
 
         add(title, vaccineNotifications, addVaccine);
