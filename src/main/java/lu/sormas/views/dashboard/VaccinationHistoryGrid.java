@@ -1,7 +1,7 @@
 package lu.sormas.views.dashboard;
 
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.icon.Icon;
@@ -13,10 +13,10 @@ import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import lombok.val;
 import lu.sormas.repository.model.PatientVaccine;
 import lu.sormas.security.SecurityService;
-import lu.sormas.services.NotificationService;
 import lu.sormas.services.PatientService;
 
 import java.time.format.DateTimeFormatter;
@@ -84,7 +84,13 @@ public class VaccinationHistoryGrid extends VerticalLayout {
 
         searchField.addValueChangeListener(e -> dataView.refreshAll());
 
-        dataView.addFilter(patientVaccine -> {
+        dataView.addFilter(VaccinationHistoryGrid.dataviewFilter(searchField));
+
+        grid.setAllRowsVisible(true);
+    }
+
+    private static SerializablePredicate<PatientVaccine> dataviewFilter(TextField searchField) {
+        return patientVaccine -> {
             val searchTerm = searchField.getValue().trim().toLowerCase();
 
             if (searchTerm.isEmpty()) return true;
@@ -94,14 +100,13 @@ public class VaccinationHistoryGrid extends VerticalLayout {
             boolean matchesDate = patientVaccine.getVaccineDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toLowerCase().contains(searchTerm);
 
             return matchesName || matchesComments || matchesDate;
-        });
-
-        grid.setAllRowsVisible(true);
+        };
     }
 
     void refresh() {
         val authenticatedUser = securityService.getAuthenticatedUser();
-        grid.setItems(patientService.getVaccinesEntries(authenticatedUser.getUsername()));
+        val dataView = grid.setItems(patientService.getVaccinesEntries(authenticatedUser.getUsername()));
+        dataView.addFilter(VaccinationHistoryGrid.dataviewFilter(searchField));
     }
 
     private static Renderer<PatientVaccine> commentsRenderer() {
