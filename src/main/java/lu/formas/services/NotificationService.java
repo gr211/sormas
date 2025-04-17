@@ -36,11 +36,12 @@ public class NotificationService {
     public List<Vaccine> nextVaccines(Patient patient) {
         val months = ageInMonths(patient);
 
-        val vaccines = vaccineService.vaccines();
-
         var alreadyVaccinated = patient.getPatientVaccines();
 
-        val futureVaccines = Stream.ofAll(vaccines).filter(vaccine -> vaccine.getMaturityMonth() >= months);
+        val vaccines = Stream.ofAll(vaccineService.vaccines()).filter(vaccine -> Objects.isNull(alreadyVaccinated) ||
+                alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine().equals(vaccine)));
+
+        val futureVaccines = vaccines.filter(vaccine -> vaccine.getMaturityMonth() >= months);
         val nextEligibleMaturityMonth = futureVaccines.minBy(Vaccine::getMaturityMonth);
 
         if (nextEligibleMaturityMonth.isEmpty()) { // no more vaccines coming up
@@ -75,7 +76,7 @@ public class NotificationService {
         val pastVaccines = Stream.ofAll(vaccines).filter(vaccine -> vaccine.getMaturityMonth() < months);
 
         val overdueVaccines = pastVaccines.filter(vaccine -> Objects.isNull(alreadyVaccinated) ||
-                alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine() == vaccine));
+                alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine().equals(vaccine)));
 
         return overdueVaccines.collect(Collectors.toList());
     }
