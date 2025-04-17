@@ -70,7 +70,6 @@ class VaccineServiceTest {
         Mockito.when(vaccinRepository.findAll(Mockito.any(Sort.class))).thenReturn(Arrays.asList(vaccine1, vaccine2));
 
         val vaccines = service.groupedByMaturity().flatten();
-        vaccines.forEach(System.out::println);
 
         assertEquals("Unexpected vaccine", Arrays.asList(
                 VaccinesByMaturityValue.placeholder(VaccinesByMaturityKey.month(1)),
