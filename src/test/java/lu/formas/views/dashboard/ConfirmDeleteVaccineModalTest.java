@@ -4,6 +4,7 @@ import lombok.val;
 import lu.formas.Application;
 import lu.formas.repository.model.PatientVaccine;
 import lu.formas.repository.model.Vaccine;
+import lu.formas.services.NotificationService;
 import lu.formas.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,9 @@ class ConfirmDeleteVaccineModalTest {
     @MockitoBean
     VaccinationHistoryGrid vaccinationHistoryGrid;
 
+    @MockitoBean
+    VaccineNotifications vaccineNotifications;
+
     @Test
     public void ensure_items_are_loaded_in_order() {
         val vaccine1 = new Vaccine() {{
@@ -41,7 +45,7 @@ class ConfirmDeleteVaccineModalTest {
 
         Mockito.doNothing().when(vaccinationHistoryGrid).refresh();
 
-        val modal = new ConfirmDeleteVaccineModal(vaccinationHistoryGrid, patientService, patientVaccine, "email");
+        val modal = new ConfirmDeleteVaccineModal(vaccinationHistoryGrid, patientService, patientVaccine, vaccineNotifications, "email");
         modal.prepareModal();
 
         modal.getConfirmButton().click();

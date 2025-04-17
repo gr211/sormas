@@ -7,7 +7,6 @@ import lombok.val;
 import lu.formas.repository.model.Patient;
 import lu.formas.repository.model.User;
 import lu.formas.security.SecurityService;
-import lu.formas.services.NotificationService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
 
@@ -15,12 +14,12 @@ public class VaccinationHistoryView extends VerticalLayout {
 
     private final AddVaccineModal addVaccineModal;
 
-    public VaccinationHistoryView(Patient patient, User user, VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, NotificationService notificationService, SecurityService securityService) {
+    public VaccinationHistoryView(Patient patient, User user, VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, VaccineService vaccineService, VaccineNotifications vaccineNotifications, SecurityService securityService) {
         setClassName("vaccination-history-view-layout");
         setJustifyContentMode(JustifyContentMode.START);
         setAlignItems(Alignment.START);
 
-        val vaccineNotifications = new VaccineNotifications(notificationService, patient);
+
         addVaccineModal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
 
         val title = new H1( user.getFirstName() + " " + user.getLastName() + " - vaccination history");

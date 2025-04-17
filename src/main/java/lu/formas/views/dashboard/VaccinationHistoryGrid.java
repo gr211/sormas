@@ -16,6 +16,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import lombok.val;
 import lu.formas.repository.model.PatientVaccine;
 import lu.formas.security.SecurityService;
+import lu.formas.services.NotificationService;
 import lu.formas.services.PatientService;
 
 import java.time.format.DateTimeFormatter;
@@ -29,10 +30,12 @@ public class VaccinationHistoryGrid extends VerticalLayout {
 
     private PatientService patientService;
     private SecurityService securityService;
+    private VaccineNotifications vaccineNotifications;
 
-    public VaccinationHistoryGrid(PatientService patientService, SecurityService securityService) {
+    public VaccinationHistoryGrid(PatientService patientService, SecurityService securityService, VaccineNotifications vaccineNotifications) {
         this.patientService = patientService;
         this.securityService = securityService;
+        this.vaccineNotifications = vaccineNotifications;
 
         setClassName("vaccination-history-grid-layout");
         setJustifyContentMode(JustifyContentMode.START);
@@ -66,7 +69,7 @@ public class VaccinationHistoryGrid extends VerticalLayout {
                             ButtonVariant.LUMO_ERROR,
                             ButtonVariant.LUMO_TERTIARY);
                     button.addClickListener(e -> {
-                        val modal = new ConfirmDeleteVaccineModal(this, patientService, patientVaccine, email);
+                        val modal = new ConfirmDeleteVaccineModal(this, patientService, patientVaccine, vaccineNotifications, email);
                         modal.open();
                     });
                     button.setIcon(new Icon(VaadinIcon.TRASH));

@@ -39,8 +39,9 @@ public class DashboardView extends VerticalLayout {
             setJustifyContentMode(JustifyContentMode.CENTER);
             setAlignItems(Alignment.CENTER);
 
-            val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService);
-            val vaccinationHistoryView = new VaccinationHistoryView(patient.get(), user.get(), vaccinationHistoryGrid, patientService, vaccineService, notificationService, securityService);
+            val vaccineNotifications = new VaccineNotifications(notificationService, patient.get());
+            val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService, vaccineNotifications);
+            val vaccinationHistoryView = new VaccinationHistoryView(patient.get(), user.get(), vaccinationHistoryGrid, patientService, vaccineService, vaccineNotifications, securityService);
             add(
                     vaccinationHistoryView,
                     vaccinationHistoryGrid

@@ -4,6 +4,7 @@ import lombok.val;
 import lu.formas.Application;
 import lu.formas.repository.model.Vaccine;
 import lu.formas.security.SecurityService;
+import lu.formas.services.NotificationService;
 import lu.formas.services.PatientService;
 import lu.formas.services.VaccineService;
 import lu.formas.services.model.VaccinesByMaturity;
@@ -41,6 +42,9 @@ class AddVaccineModalTest {
     @MockitoBean
     VaccineNotifications vaccineNotifications;
 
+    @MockitoBean
+    NotificationService notificationService;
+
     @Test
     public void ensure_items_are_loaded_in_order() {
         val vaccine1 = new Vaccine() {{
@@ -55,7 +59,7 @@ class AddVaccineModalTest {
         val vaccineByMaturity = new VaccinesByMaturity(Arrays.asList(vaccine1, vaccine2));
         Mockito.when(vaccineService.groupedByMaturity()).thenReturn(vaccineByMaturity);
 
-        val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService);
+        val vaccinationHistoryGrid = new VaccinationHistoryGrid(patientService, securityService, notificationService);
 
         val modal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
 

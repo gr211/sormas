@@ -11,6 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.Getter;
 import lombok.val;
 import lu.formas.repository.model.PatientVaccine;
+import lu.formas.services.NotificationService;
 import lu.formas.services.PatientService;
 
 @Getter
@@ -21,12 +22,14 @@ public class ConfirmDeleteVaccineModal extends Dialog {
     private PatientService patientService;
     private PatientVaccine patientVaccine;
     private VaccinationHistoryGrid vaccinationHistoryGrid;
+    private VaccineNotifications vaccineNotifications;
     private String email;
 
-    public ConfirmDeleteVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, PatientVaccine patientVaccine, String email) {
+    public ConfirmDeleteVaccineModal(VaccinationHistoryGrid vaccinationHistoryGrid, PatientService patientService, PatientVaccine patientVaccine, VaccineNotifications vaccineNotifications, String email) {
         this.patientService = patientService;
         this.patientVaccine = patientVaccine;
         this.vaccinationHistoryGrid = vaccinationHistoryGrid;
+        this.vaccineNotifications = vaccineNotifications;
         this.email = email;
 
         setCloseOnEsc(true);
@@ -47,6 +50,7 @@ public class ConfirmDeleteVaccineModal extends Dialog {
         confirmButton = new Button("Confirm", event -> {
             patientService.removeVaccination(email, patientVaccine);
             vaccinationHistoryGrid.refresh();
+            vaccineNotifications.refresh();
             close();
         });
 
