@@ -54,10 +54,10 @@ class NotificationServiceTest {
     public void test_Get_Next_Vaccine() {
         val service = new NotificationService(patientService, vaccineService);
 
-        val inThePath = new Vaccine();
-        inThePath.setId(0L);
-        inThePath.setName("Vaccine");
-        inThePath.setMaturityMonth(0);
+        val inThePast = new Vaccine();
+        inThePast.setId(0L);
+        inThePast.setName("Vaccine");
+        inThePast.setMaturityMonth(0);
 
         val nextOne1 = new Vaccine();
         nextOne1.setId(1L);
@@ -75,12 +75,12 @@ class NotificationServiceTest {
         nextOne3.setName("Vaccine");
         nextOne3.setMaturityMonth(1);
 
-        val TooFarInTime = new Vaccine();
-        TooFarInTime.setId(2L);
-        TooFarInTime.setName("Vaccine");
-        TooFarInTime.setMaturityMonth(5);
+        val tooFarInTime = new Vaccine();
+        tooFarInTime.setId(2L);
+        tooFarInTime.setName("Vaccine");
+        tooFarInTime.setMaturityMonth(5);
 
-        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(inThePath, nextOne1, TooFarInTime, nextOne2, nextOne3));
+        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(inThePast, nextOne1, tooFarInTime, nextOne2, nextOne3));
 
         val patient = new Patient();
         patient.setDob(LocalDate.now().minusDays(1).minusMonths(1));
@@ -90,5 +90,52 @@ class NotificationServiceTest {
 
         val nextVaccines = service.nextVaccines(patient);
         assertEquals(Arrays.asList(nextOne1, nextOne2), nextVaccines);
+    }
+
+    @Test
+    @SneakyThrows
+    public void test_Overdue_Vaccine() {
+        val service = new NotificationService(patientService, vaccineService);
+
+        val overdue1 = new Vaccine();
+        overdue1.setId(0L);
+        overdue1.setName("Vaccine");
+        overdue1.setMaturityMonth(0);
+
+        val overdue2 = new Vaccine();
+        overdue2.setId(1L);
+        overdue2.setName("Vaccine");
+        overdue2.setMaturityMonth(1);
+
+        val overdue3 = new Vaccine();
+        overdue3.setId(3L);
+        overdue3.setName("Vaccine");
+        overdue3.setMaturityMonth(1);
+
+        val alreadyVaccinated = new Vaccine();
+        alreadyVaccinated.setId(4L);
+        alreadyVaccinated.setName("Vaccine");
+        alreadyVaccinated.setMaturityMonth(4);
+
+        val overdue4 = new Vaccine();
+        overdue4.setId(5L);
+        overdue4.setName("Vaccine");
+        overdue4.setMaturityMonth(5);
+
+        val notYetDue = new Vaccine();
+        notYetDue.setId(6L);
+        notYetDue.setName("Vaccine");
+        notYetDue.setMaturityMonth(15);
+
+        Mockito.when(vaccineService.vaccines()).thenReturn(Arrays.asList(overdue1, overdue2, overdue3, alreadyVaccinated, overdue4, notYetDue));
+
+        val oneYearOldPatient = new Patient();
+        oneYearOldPatient.setDob(LocalDate.now().minusMonths(12));
+        oneYearOldPatient.setPatientVaccines(Collections.singleton(new PatientVaccine() {{
+            setVaccine(alreadyVaccinated);
+        }}));
+
+        val overdueVaccines = service.overdueVaccines(oneYearOldPatient);
+        assertEquals(Arrays.asList(overdue1, overdue2, overdue3, overdue4), overdueVaccines);
     }
 }

@@ -64,4 +64,19 @@ public class NotificationService {
 
         return remainingVaccines.map(Tuple2::_2).collect(Collectors.toList());
     }
+
+    public List<Vaccine> overdueVaccines(Patient patient) {
+        val months = ageInMonths(patient);
+
+        val vaccines = vaccineService.vaccines();
+
+        var alreadyVaccinated = patient.getPatientVaccines();
+
+        val pastVaccines = Stream.ofAll(vaccines).filter(vaccine -> vaccine.getMaturityMonth() < months);
+
+        val overdueVaccines = pastVaccines.filter(vaccine -> Objects.isNull(alreadyVaccinated) ||
+                alreadyVaccinated.stream().noneMatch(pv -> pv.getVaccine() == vaccine));
+
+        return overdueVaccines.collect(Collectors.toList());
+    }
 }
