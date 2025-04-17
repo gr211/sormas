@@ -4,25 +4,33 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import io.vavr.collection.Stream;
 import lombok.val;
 import lu.formas.repository.model.Patient;
 import lu.formas.services.NotificationService;
 
-public class VaccineNotifications extends Div {
+public class VaccineNotifications extends VerticalLayout {
     private final NotificationService notificationService;
     private final Patient patient;
 
-    private UnorderedList unorderedList = new UnorderedList();
+    private Div dueVaccinations = new Div();
+    private Div upcomingVaccinations = new Div();
+    private UnorderedList dueVaccinationsList = new UnorderedList();
+    private UnorderedList upcomingVaccinationsList = new UnorderedList();
 
 
     public VaccineNotifications(NotificationService notificationService, Patient patient) {
         this.notificationService = notificationService;
         this.patient = patient;
 
-        setClassName("vaccine-notifications-div");
+        dueVaccinations.setClassName("due-vaccine-notifications-div");
+        dueVaccinations.add(new H3("Due vaccinations"), dueVaccinationsList);
 
-        add(new H3("Overdue vaccinations"), unorderedList);
+        upcomingVaccinations.setClassName("upcoming-vaccine-notifications-div");
+        upcomingVaccinations.add(new H3("Next vaccinations"), upcomingVaccinationsList);
+
+        add(dueVaccinations, upcomingVaccinations);
 
         refresh();
     }
@@ -30,13 +38,20 @@ public class VaccineNotifications extends Div {
     public void refresh() {
         val notifications = notificationService.notifications(patient.getEmail());
 
-        setVisible(!notifications.getOverdueVaccines().isEmpty());
+        dueVaccinations.setVisible(!notifications.getOverdueVaccines().isEmpty());
+        upcomingVaccinations.setVisible(!notifications.getNextVaccines().isEmpty());
 
-        unorderedList.removeAll();
+        dueVaccinationsList.removeAll();
+        upcomingVaccinationsList.removeAll();
 
         Stream.ofAll(notifications.getOverdueVaccines())
                 .map(NotificationService::showVaccine)
                 .map(ListItem::new)
-                .forEach(unorderedList::add);
+                .forEach(dueVaccinationsList::add);
+
+        Stream.ofAll(notifications.getNextVaccines())
+                .map(NotificationService::showVaccine)
+                .map(ListItem::new)
+                .forEach(upcomingVaccinationsList::add);
     }
 }

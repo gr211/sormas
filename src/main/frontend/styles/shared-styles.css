@@ -89,10 +89,6 @@ table.tableblock {
 
 .vaccine-notifications-div {
     background-color: white;
-    /*background-color: #8B0000;*/
-    /*color: white;*/
-    /*color: white;*/
-    border-color: #8B0000;
     border-radius: var(--lumo-border-radius-m);
     margin-bottom: var(--lumo-space-m);
     padding-top: var(--lumo-space-m);
@@ -100,9 +96,20 @@ table.tableblock {
     width: 100%;
 }
 
-.vaccine-notifications-div * {
+.due-vaccine-notifications-div {
+    border-color: #8B0000;
+}
+
+.upcoming-due-vaccine-notifications-div {
+    border-color: #ff9800;
+}
+
+.due-vaccine-notifications-div * {
     color: #8B0000;
-    /*color: white;*/
+}
+
+.upcoming-vaccine-notifications-div * {
+    color: #ff9800;
 }
 
 .vaccine-notifications-div ul {
