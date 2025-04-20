@@ -26,6 +26,11 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * At DB level, User and Patient are independent entities, by design. The idea behind that reason is that both entities could have different life-cycles (e.g. a user could be deleted, but the patient should remain in the system for audit purposes).
+     * <p>
+     * At application level however, we want to keep both entities in sync. So when a user is created, we create a patient as well, within the same transaction boundaries to ensure consistency.
+     */
     public void save(User user) {
         // Encode the password before saving
         val encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -48,6 +53,11 @@ public class UserService {
         return false;
     }
 
+    /**
+     * At DB level, User and Patient are independent entities, by design.
+     * <p>
+     * For now however, such a requirement is not asked for, so we can delete both entities at once, within a transactional boundaries to avoid any inconsistencies.
+     */
     public void delete(User User) {
         userRepository.deleteUserByEmail(User.getEmail());
         patientRepository.deletePatientByEmail(User.getEmail());

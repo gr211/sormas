@@ -68,7 +68,7 @@ class AddVaccineModalTest {
         val patient = new Patient();
         patient.setDob(LocalDate.of(2025, 1, 1));
 
-        val modal = new AddVaccineModal(patient, vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
+        val modal = new AddVaccineModal(vaccinationHistoryGrid, patientService, vaccineService, securityService, vaccineNotifications);
 
         val vaccines = modal.getSelect().getGenericDataView().getItems().collect(Collectors.toList());
 
