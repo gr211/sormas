@@ -60,5 +60,5 @@ Visit the application at [http://localhost:1236/login](http://localhost:1236/log
 
 - [ ] Java 8
 
-Old Nodejs dependencies were just not available anymore to run a java8 version of Vaadin on my systems. I resorted to using
-java17 to develop the application.
+Old Nodejs dependencies were just not available anymore to run a java 8 version of Vaadin on my systems. I resorted to using
+java 17 to develop the application. Syntax is still forced down to java 8.
