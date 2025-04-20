@@ -42,6 +42,9 @@ Visit the application at [http://localhost:1236/login](http://localhost:1236/log
 ## Screenshots
 
 ![Login](login.png)
+![Login](registration.png)
+![Login](dashboard.png)
+![Login](profile.png)
 
 # Observations
 
