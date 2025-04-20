@@ -41,7 +41,7 @@ Visit the application at [http://localhost:1236/login](http://localhost:1236/log
 
 ## Screenshots
 
-![Login](screenshots/login.png)
+![Login](login.png)
 
 # Observations
 
