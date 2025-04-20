@@ -39,6 +39,10 @@ Or
 
 Visit the application at [http://localhost:1236/login](http://localhost:1236/login)
 
+## Screenshots
+
+![Login](screenshots/login.png)
+
 # Observations
 
 ## Met criteria
